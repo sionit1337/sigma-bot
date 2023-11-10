@@ -42,7 +42,7 @@ class Mod(commands.Cog):
                 await ctx.send(
                     embed=discord.Embed(title=f"{target.display_name} изгнан по причине ``{reason}``", color=0xffbb00))
 
-                print(msg=f"{target.display_name} был изгнан")
+                print(f"{target.display_name} был изгнан")
 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000),
@@ -107,7 +107,7 @@ class Mod(commands.Cog):
                     title=f"{target.display_name} замьючен на {days} дней, {hours} часов, {minutes} минут и {seconds} секунд",
                     color=0xffbb00))
 
-                print(msg=f"{target.display_name} замьючен на {days}d:{hours}h:{minutes}m:{seconds}s")
+                print(f"{target.display_name} замьючен на {days}d:{hours}h:{minutes}m:{seconds}s")
 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000),

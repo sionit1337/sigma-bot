@@ -155,5 +155,33 @@ class Mod(commands.Cog):
                                ephemeral=True)
 
 
+        @bot.slash_command(name="clear",
+                           description="Очищает выбранное кол-во сообщений",
+                           options=[discord.Option(name="amount",
+                                                   type=discord.OptionType.integer,
+                                                   description="Кол-во сообщений для очистки",
+                                                   required=True)])
+        async def ban(self,
+                      ctx,
+                      amount: int):
+            if not ctx.author.guild_permissions.manage_messages:
+                await ctx.send(embed=discord.Embed(title="У вас недостаточно прав для этого!", color=0xff0000),
+                               ephemeral=True)
+                return
+
+            try:
+                await ctx.channel.purge(limit=amount)
+
+                await ctx.send(
+                    embed=discord.Embed(title=f"``{amount}`` сообщений было очищено",
+                                        color=0xffbb00))
+
+                print(f"-{amount} сообщений в чате #{ctx.channel}")
+
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000),
+                               ephemeral=True)
+
+
 def setup(bot: commands.Bot):
     bot.add_cog(Mod(bot))

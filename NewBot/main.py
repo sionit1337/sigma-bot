@@ -12,6 +12,8 @@ class Bot(commands.InteractionBot):
         super().__init__(intents=intents)
 
         self.load_extension("cogs.mod")
+        self.load_extension("cogs.utility")
+        self.load_extension("cogs.fun")
 
 
 if __name__ == "__main__":

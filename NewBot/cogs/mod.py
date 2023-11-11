@@ -7,7 +7,7 @@ class Mod(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-        @commands.slash_command(name="kick",
+        @bot.slash_command(name="kick",
                                 description="Выгоняет выбранного пользователя с сервера",
                                 options=[discord.Option(name="target",
                                                         type=discord.OptionType.user,
@@ -48,11 +48,15 @@ class Mod(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000),
                                ephemeral=True)
 
-        @commands.slash_command(name="mute",
+        @bot.slash_command(name="mute",
                                 description="Запрещает выбранному пользователю писать на сервере",
                                 options=[discord.Option(name="target",
                                                         type=discord.OptionType.user,
                                                         description="Пользователь для мута",
+                                                        required=True),
+                                         discord.Option(name="seconds",
+                                                        type=discord.OptionType.integer,
+                                                        description="Кол-во секунд мута",
                                                         required=True),
                                          discord.Option(name="days",
                                                         type=discord.OptionType.integer,
@@ -67,10 +71,6 @@ class Mod(commands.Cog):
                                                         type=discord.OptionType.integer,
                                                         description="Кол-во минут мута",
                                                         required=False),
-                                         discord.Option(name="seconds",
-                                                        type=discord.OptionType.integer,
-                                                        description="Кол-во секунд мута",
-                                                        required=True),
                                          discord.Option(name="reason",
                                                         type=discord.OptionType.string,
                                                         description="Причина для мута",

@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-import requests as rq
+import requests
 
 
 class Fun(commands.Cog):
@@ -11,16 +11,17 @@ class Fun(commands.Cog):
         @bot.slash_command(name="send_cat", description="Посылает котика в чат")
         async def send_cat(self, ctx):
             try:
-                response = rq.get("https://some-random-api.com/animal/cat").json()
+                response = requests.get("https://some-random-api.com/animal/cat")
+                data = response.json()
 
-                print(response)
+                image = data["image"]
+                fact = data["fact"]
 
-                image = response["image"]
-                fact = response["fact"]
-
-                embed = discord.Embed(title="post this cat as fast as possible", description=fact, color=0xff0000)
+                embed = discord.Embed(title="post this cat as fast as possible", description=fact, color=0xffbb00)
                 embed.set_image(url=image)
 
+                await ctx.send(embed=embed)
+                
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000),
                                ephemeral=True)

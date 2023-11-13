@@ -50,7 +50,7 @@ class Utility(commands.Cog):
                 embed.set_thumbnail(member.avatar.url)
 
                 embed.add_field(name="Ник", value=f"``{member.nick}``")
-                embed.add_field(name="Статус", value=f"``{member.status.value}``")
+                embed.add_field(name="Статус", value=f"``{member.status}``")
                 embed.add_field(name="Текст в статусе", value=f"``{member.activity.name}``")
                 embed.add_field(name="Роли", value=f"``{len(role_names)}`` (``{', '.join(role_names)}``)")
 

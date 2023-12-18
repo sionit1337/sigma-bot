@@ -1,6 +1,9 @@
 import disnake as discord
 from disnake.ext import commands
 
+from psutil import cpu_percent, virtual_memory
+
+
 class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -42,8 +45,7 @@ class Utility(commands.Cog):
             if member is None:
                 member = ctx.author
 
-                roles = member.roles[1:]
-                role_names = [role.name for role in roles]
+            role_names = [role.name for role in member.roles[1:]]
 
             try:
                 embed = discord.Embed(title=f"``{member.display_name}``")
@@ -52,13 +54,36 @@ class Utility(commands.Cog):
                 embed.add_field(name="Ник", value=f"``{member.nick}``")
                 embed.add_field(name="Статус", value=f"``{member.status}``")
                 embed.add_field(name="Текст в статусе", value=f"``{member.activity.name}``")
-                embed.add_field(name="Роли", value=f"``{len(role_names)}`` (``{', '.join(role_names)}``)")
+                embed.add_field(name="Роли", value=f"``{len(role_names)}`` (``{'``, ``'.join(role_names)}``)")
 
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000), ephemeral=True)
+
+
+        @bot.slash_command(name="host", description="Пишет нагрузку на машину, хостящую бота")
+        async def host(self, ctx):
+
+            cpu = cpu_percent()
+
+            ram_percent = virtual_memory().percent
+            ram_used = round(virtual_memory().used / 1048576)
+            ram_total = round(virtual_memory().total / 1048576)
+
+            ping = round(bot.latency * 1000)
+
+            try:
+                embed = discord.Embed(title="Нагрузка на машину", color=0xffbb00)
+
+                embed.add_field(name="Пинг", value=f"``{ping}`` мс")
+                embed.add_field(name="Процессор", value=f"``{cpu}%``")
+                embed.add_field(name="Оперативная память", value=f"``{ram_percent}``% (``{ram_used}``/``{ram_total}`` МБ)")
+
+                await ctx.send(embed=embed)
+
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000), ephemeral=True)
 
 
 def setup(bot: commands.Bot):

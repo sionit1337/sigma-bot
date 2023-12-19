@@ -18,7 +18,7 @@ class Utility(commands.Cog):
                 embed.set_thumbnail(url=server.icon.url)
 
                 embed.add_field(name="Владелец сервера", value=f"``{server.owner.display_name}`` ({server.owner.mention})")
-                embed.add_field(name="Описание сервера", value=f"``{server.description}``")
+                embed.add_field(name="Описание сервера", value=f"``{server.description if server.description else 'Пусто'}``")
 
                 embed.add_field(name="Количество участников", value=f"``{len(server.members)}``")
                 embed.add_field(name="Количество каналов", value=f"``{len(server.channels)}``")
@@ -51,9 +51,10 @@ class Utility(commands.Cog):
                 embed = discord.Embed(title=f"``{member.display_name}``")
                 embed.set_thumbnail(member.avatar.url)
 
-                embed.add_field(name="Ник", value=f"``{member.nick}``")
+                embed.add_field(name="Ник", value=f"``{member.global_name}``")
                 embed.add_field(name="Статус", value=f"``{member.status}``")
-                embed.add_field(name="Текст в статусе", value=f"``{member.activity.name}``")
+                embed.add_field(name="Бот", value=f"``{'Да' if member.bot else 'Нет'}``")
+                embed.add_field(name="Текст в статусе", value=f"``{member.activity.name if member.activity else 'Пусто'}``")
                 embed.add_field(name="Роли", value=f"``{len(role_names)}`` (``{'``, ``'.join(role_names)}``)")
 
                 await ctx.send(embed=embed)

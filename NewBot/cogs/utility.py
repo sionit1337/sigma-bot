@@ -32,6 +32,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="Что-то пошло не так", description=f"``{e}``", color=0xff0000),
                                ephemeral=True)
 
+        
         @bot.slash_command(name="user_info", description="Информация о выбранном пользователе",
                            options=[
                                discord.Option(name="member",
@@ -52,9 +53,12 @@ class Utility(commands.Cog):
                 embed.set_thumbnail(member.avatar.url)
 
                 embed.add_field(name="Ник", value=f"``{member.global_name}``")
+                embed.add_field(name="ID", value=f"``{member.id}``")
+                
                 embed.add_field(name="Статус", value=f"``{member.status}``")
-                embed.add_field(name="Бот", value=f"``{'Да' if member.bot else 'Нет'}``")
                 embed.add_field(name="Текст в статусе", value=f"``{member.activity.name if member.activity else 'Пусто'}``")
+                
+                embed.add_field(name="Бот", value=f"``{'Да' if member.bot else 'Нет'}``")
                 embed.add_field(name="Роли", value=f"``{len(role_names)}`` (``{'``, ``'.join(role_names)}``)")
 
                 await ctx.send(embed=embed)

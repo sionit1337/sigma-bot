@@ -48,7 +48,7 @@ class Utility(commands.Cog):
             role_names = [role.name for role in member.roles[1:]]
 
             try:
-                embed = discord.Embed(title=f"``{member.display_name}``")
+                embed = discord.Embed(title=f"``{member.display_name}``", color=0xffbb00)
                 embed.set_thumbnail(member.avatar.url)
 
                 embed.add_field(name="Ник", value=f"``{member.name}`` ({member.mention})")

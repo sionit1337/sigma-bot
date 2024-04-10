@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     @bot.event
     async def on_ready():
-        print(f"{bot.user.display_name} готов к работе")
+        print(f"{bot.user.display_name} ready to work")
 
 
     bot.run(config["Token"])

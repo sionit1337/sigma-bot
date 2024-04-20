@@ -111,18 +111,10 @@ async def on_ready():
     print(f"{bot.user} готов к работе!")
     await channel.send(embed=discord.Embed(title="Бот запущен!", color=Green))
 
-    activities = ["Rick Astley - Never Gonna Give You Up", "зафлуди сиониту консоль", "Minecraft", "догони меня кирпич", "Bag Generator 3000", "𝓟 𝓸 𝓷", "Совет от Соника", "404 Not Found"]
-    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=random.choice(activities)))
+    motd = ["???", "зафлуди сиониту консоль", "Minecraft", "догони меня кирпич", "Bag Generator 3000"]
+    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.playing, name=random.choice(motd)))
 
     bot.loop.create_task(random_ping())
-
-
-@bot.event
-async def on_shutdown():
-    channel = bot.get_channel(1153915482445991937)
-
-    print(f"{bot.user} выключен!")
-    await channel.send(embed=discord.Embed(title="Бот выключен!", color=Red))
 
 
 @bot.event
@@ -253,7 +245,7 @@ async def ask(ctx, вопрос: str):
         return
 
     answers = ["Да", "Нет", "НИ В КОЕМ СЛУЧАЕ!!!!!", "КОНЕЧНО ЖЕ ДА!!!!!!!!!", "Не уверен", "Скорее всего нет",
-               "Возможно", "Спроси у Мышки", "Спроси у ChatGPT", "Мне лень, переспроси еще раз"]
+               "Возможно", "Спроси у ChatGPT", "Спроси у другого бота", "Мне лень, переспроси еще раз"]
 
     answer = random.choice(answers)
 
@@ -632,7 +624,7 @@ async def reg(ctx):
         cursor.execute("INSERT INTO users (user_id, balance, level, exp) VALUES (?, 500, 0, 0)", (ctx.author.id,))
         conn.commit()
 
-        await ctx.send(embed=discord.Embed(title="Вы зарегистрированы в ДБ!", description="Ваш начальный баланс - 500<:coin:1165638500528443546>", color=Green))
+        await ctx.send(embed=discord.Embed(title="Вы зарегистрированы в ДБ!", description="Ваш начальный баланс - 500<:coin:1231332348487012454>", color=Green))
 
 
 @bot.slash_command(name="работа", description="Способ заработать немного денег")
@@ -651,7 +643,7 @@ async def work(ctx):
     conn.commit()
     conn.close()
 
-    await ctx.send(embed=discord.Embed(title=f"Вы поработали и получили {amnt}<:coin:1165638500528443546>!", color=Green))
+    await ctx.send(embed=discord.Embed(title=f"Вы поработали и получили {amnt}<:coin:1231332348487012454>!", color=Green))
 
 
 @bot.slash_command(name="профиль", description="Показывает профиль выбранного пользователя")
@@ -678,7 +670,7 @@ async def profile(ctx, пользователь: discord.Member = None):
         conn.close()
 
         if user_info:
-            await ctx.send(embed=discord.Embed(title=f"Пользователь {пользователь.name}", description=f"Баланс: {user_balance}<:coin:1165638500528443546> \nУровень: {user_level} \nОпыт: {user_exp}/{user_level * 10}", color=Yellow))
+            await ctx.send(embed=discord.Embed(title=f"Пользователь {пользователь.name}", description=f"Баланс: {user_balance}<:coin:1231332348487012454> \nУровень: {user_level} \nОпыт: {user_exp}/{user_level * 10}", color=Yellow))
 
     else:
         await ctx.send(embed=discord.Embed(title="Пользователя нет в ДБ!", color=Red))
@@ -704,10 +696,10 @@ async def transfer(ctx, пользователь: discord.Member, количес
             cursor.execute("UPDATE users SET balance = balance + ? WHERE user_id = ?", (количество, пользователь.id))
             cursor.execute("UPDATE users SET balance = balance - ? WHERE user_id = ?", (количество, ctx.author.id))
 
-            await ctx.send(embed=discord.Embed(title=f"Вы передали {пользователь.name} {количество}<:coin:1165638500528443546>", color=Green))
+            await ctx.send(embed=discord.Embed(title=f"Вы передали {пользователь.name} {количество}<:coin:1231332348487012454>", color=Green))
 
         else:
-            await ctx.send(embed=discord.Embed(title="У вас недостаточно <:coin:1165638500528443546> для передачи!", color=Red))
+            await ctx.send(embed=discord.Embed(title="У вас недостаточно <:coin:1231332348487012454> для передачи!", color=Red))
 
     else:
         await ctx.send(embed=discord.Embed(title="Пользователя нет в ДБ!", color=Red))

@@ -14,7 +14,7 @@ class Bot(commands.InteractionBot):
         self.load_extension("cogs.mod")
         self.load_extension("cogs.utility")
         self.load_extension("cogs.fun")
-        self.load_extension("cogs.gpt")
+#       self.load_extension("cogs.gpt")    this cog is optional
 
 
 if __name__ == "__main__":

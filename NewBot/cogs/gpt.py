@@ -1,3 +1,5 @@
+# This cog is optional
+
 import disnake as discord
 from disnake.ext import commands
 

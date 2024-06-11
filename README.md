@@ -2,4 +2,13 @@
 
 This is code and files of my old SigmaBot  
 
-Because there are some code for music, you need to download FFMPEG files manually
+# Setup (I don't think you want and should to install it)
+
+- Install dependencies 
+  - `pip install -r requirements.txt`
+  - [Install FFMPEG](https://ffmpeg.org/download.html)
+
+
+## Note
+
+I will not update this version of the bot anymore (of course there are exceptions)

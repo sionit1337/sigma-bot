@@ -7,6 +7,10 @@ This is code and files of my old SigmaBot
 - Install dependencies 
   - `pip install -r requirements.txt`
   - [Install FFMPEG](https://ffmpeg.org/download.html)
+- Insert tokens and keys in `config.json`
+- Run `sigma_bot.py`
+- ???
+- profit
 
 
 ## Note

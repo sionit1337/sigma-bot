@@ -1,4 +1,15 @@
 # Sigma Bot
+
 Just a code for my bot
 
-Test server link: [Tap](https://discord.gg/CGpe2uTdze "Only RU")
+# Tests server
+
+[Tap](https://discord.gg/CGpe2uTdze)
+
+# How to setup
+
+- Install dependencies (`pip install -r requirements.txt`)
+- Insert token in `non scripts/config.json`
+- Start the `main.py`
+- ???
+- profit

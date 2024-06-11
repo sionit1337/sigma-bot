@@ -10,18 +10,28 @@ class Fun(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-        # Command that sends cat
-        @bot.slash_command(name="send_cat", description="Sends cat in chat")
-        async def send_cat(self, ctx):
+        # Command that sends {endpoint}
+        @bot.slash_command(name="send_animal", description="Sends animal on your choice in chat", options=[discord.Option(name="animal", type=discord.OptionType.string, description="Your animal", required=True, choices=[
+            discord.OptionChoice(name="Dog", value="dog"),
+            discord.OptionChoice(name="Cat", value="cat"),
+            discord.OptionChoice(name="Fox", value="fox")
+        ])])
+        async def send_animal(self, ctx, animal: str):
             try:
-                response = requests.get("https://some-random-api.com/animal/cat")
+                response = requests.get(f"https://some-random-api.com/animal/{animal}")
                 data = response.json()
 
-                image = data["image"]
-                fact = data["fact"]
+                if response.status_code == 200:
+                    image = data["image"]
+                    fact = data["fact"]
 
-                embed = discord.Embed(title="post this cat as fast as possible", description=f"Fact: ``{fact}`` \n(it's embedded in API y'know)", color=0xffbb00)
-                embed.set_image(url=image)
+                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"Fact: ``{fact}`` \n(it's embedded in API y'know)", color=0xffbb00)
+                    embed.set_image(url=image)
+
+                else:
+                    err = data["err"]
+
+                    embed = discord.Embed(title=f"Something went wrong", description=f"``{response.status_code}`` | ``{err}``", color=0xff0000)
 
                 await ctx.send(embed=embed)
                 

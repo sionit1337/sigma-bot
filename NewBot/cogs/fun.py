@@ -42,7 +42,7 @@ class Fun(commands.Cog):
                                ephemeral=True)
 
 
-        # I think everyone knows this command
+        # Oracle (not Java vendor)
         @bot.slash_command(name="ball8", description="Asks oracle and answers your questions",
                            options=[discord.Option(name="question", type=discord.OptionType.string, description="Your question", required=True)
                            ])
@@ -98,6 +98,24 @@ class Fun(commands.Cog):
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
                                ephemeral=True)
+                
+
+        # Random value
+        @bot.slash_command(name="rand", description="Generate random number", options=[discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
+        async def rand(self, ctx, min: int, max: int):
+            try:
+
+                randvalue = random.randint(min, max)
+                embed = discord.Embed(title="Random value", description=f"# ``{randvalue}``", color=Colors.standard)
+
+                embed.add_field(name="Min value", value=f"``{min}``")
+                embed.add_field(name="Max value", value=f"``{max}``")
+                
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
+                               ephemeral=True)
+
+
 
 
 def setup(bot: commands.Bot):

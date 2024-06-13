@@ -7,12 +7,14 @@ from main import Colors
 
 import openai
 from json import load
+import craiyon
+from random import choice
 
 with open(u"./non scripts/config.json", "r") as file:
     config = load(file)
 
 
-class GPT(commands.Cog):
+class AITools(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
@@ -36,7 +38,8 @@ class GPT(commands.Cog):
             return str(response.choices[0].message.content)
 
 
-        @bot.slash_command(name="ai", description="ChatGPT",
+        # Command to talk with ChatGPT
+        @bot.slash_command(name="gpt", description="Ask ChatGPT",
                            options=[
                                discord.Option(name="prompt",
                                               type=discord.OptionType.string,
@@ -61,7 +64,32 @@ class GPT(commands.Cog):
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
                                ephemeral=True)
+                
+
+        # Command to generate images
+        @bot.slash_command(name="imagine", description="Generate image with Craiyon",
+                           options=[
+                               discord.Option(name="prompt",
+                                              type=discord.OptionType.string,
+                                              description="Your prompt",
+                                              required=True)
+                           ])
+        async def ai(self, ctx, prompt: str):
+            generator = craiyon.Craiyon()
+
+            try:
+                embed = discord.Embed(title="Generating...", color=Colors.standard)
+                await ctx.send(embed=embed)
+
+                generated = await generator.async_generate(prompt)
+
+                embed = discord.Embed(title=f"``{prompt}``", color=Colors.standard)
+                embed.set_image(url=choice(generated.images))
+
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
+                               ephemeral=True)
 
 
 def setup(bot: commands.Bot):
-    bot.add_cog(GPT(bot))
+    bot.add_cog(AITools(bot))

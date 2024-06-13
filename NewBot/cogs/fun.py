@@ -30,7 +30,7 @@ class Fun(commands.Cog):
                     embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"Fact: ``{fact}`` \n(it's embedded in API y'know)", color=Colors.standard)
                     embed.set_image(url=image)
 
-                else:
+                elif response.status_code >= 400:
                     err = data["err"]
 
                     embed = discord.Embed(title=f"Something went wrong", description=f"``{response.status_code}`` | ``{err}``", color=Colors.standard)

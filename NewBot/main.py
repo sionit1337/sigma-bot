@@ -2,6 +2,14 @@ import disnake as discord
 from disnake.ext import commands
 from json import load
 
+
+# Universal colors
+class Colors:
+    standard = 0xff9900
+    error = 0xff0000
+    todo = 0x5500ff
+
+
 path = "not-scripts/config.json"
 
 with open(path, "r") as file:
@@ -13,9 +21,12 @@ class Bot(commands.InteractionBot):
     def __init__(self):
         super().__init__(intents=intents)
 
-        self.load_extension("cogs.mod")
-        self.load_extension("cogs.utility")
-        self.load_extension("cogs.fun")
+    async def setup_interactions(self):
+        await self.load_extension("cogs.mod")
+        await self.load_extension("cogs.utility")
+        await self.load_extension("cogs.fun")
+        await self.load_extension("cogs.music")
+#       await self.load_extension("cogs.gpt")    optional
 
 
 if __name__ == "__main__":
@@ -25,4 +36,5 @@ if __name__ == "__main__":
     async def on_ready():
         print(f"{bot.user.display_name} ready to work")
 
+    bot.setup_interactions()
     bot.run(config["Token"])

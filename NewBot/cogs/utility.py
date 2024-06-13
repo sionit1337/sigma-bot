@@ -1,6 +1,8 @@
 import disnake as discord
 from disnake.ext import commands
 
+from main import Colors
+
 from psutil import cpu_percent, virtual_memory
 
 
@@ -14,7 +16,7 @@ class Utility(commands.Cog):
             server = ctx.guild
 
             try:
-                embed = discord.Embed(title=f"``{server.name}``", color=0xffbb00)
+                embed = discord.Embed(title=f"``{server.name}``", color=Colors.standard)
 
                 embed.set_thumbnail(url=server.icon.url)
 
@@ -30,7 +32,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
                                ephemeral=True)
 
 
@@ -44,7 +46,7 @@ class Utility(commands.Cog):
             role_names = [role.name for role in member.roles[1:]]
 
             try:
-                embed = discord.Embed(title=f"``{member.display_name}``", color=0xffbb00)
+                embed = discord.Embed(title=f"``{member.display_name}``", color=Colors.standard)
                 embed.set_thumbnail(member.avatar.url)
 
                 embed.add_field(name="Nickname", value=f"``{member.name}`` ({member.mention})")
@@ -62,7 +64,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000), ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
         # Host info command
@@ -78,7 +80,7 @@ class Utility(commands.Cog):
             ping = round(bot.latency * 1000)
 
             try:
-                embed = discord.Embed(title="Host stats", color=0xffbb00)
+                embed = discord.Embed(title="Host stats", color=Colors.standard)
 
                 embed.add_field(name="Ping", value=f"``{ping}`` ms")
                 embed.add_field(name="CPU", value=f"``{cpu}%``")
@@ -87,7 +89,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000), ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
 def setup(bot: commands.Bot):

@@ -1,6 +1,8 @@
 import disnake as discord
 from disnake.ext import commands
 
+from main import Colors
+
 import random
 
 import requests
@@ -25,18 +27,18 @@ class Fun(commands.Cog):
                     image = data["image"]
                     fact = data["fact"]
 
-                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"Fact: ``{fact}`` \n(it's embedded in API y'know)", color=0xffbb00)
+                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"Fact: ``{fact}`` \n(it's embedded in API y'know)", color=Colors.standard)
                     embed.set_image(url=image)
 
                 else:
                     err = data["err"]
 
-                    embed = discord.Embed(title=f"Something went wrong", description=f"``{response.status_code}`` | ``{err}``", color=0xff0000)
+                    embed = discord.Embed(title=f"Something went wrong", description=f"``{response.status_code}`` | ``{err}``", color=Colors.standard)
 
                 await ctx.send(embed=embed)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
                                ephemeral=True)
 
 
@@ -53,13 +55,13 @@ class Fun(commands.Cog):
             answers = [answers_positive, answers_negative, answers_questionable, answers_neutral]
 
             try:
-                embed = discord.Embed(title="Oracle", color=0xffbb00)
+                embed = discord.Embed(title="Oracle", color=Colors.standard)
                 embed.add_field(name=f"``{question}``", value=f"**{random.choice(random.choice(answers))}**")
 
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
                                ephemeral=True)
 
 

@@ -1,0 +1,1 @@
+for GPT answers that are bigger than 2k characters (Discord limit y'know)

@@ -1,8 +1,9 @@
 import disnake as discord
 from disnake.ext import commands
 
+from main import Colors
+
 import datetime
-import re
 
 class Mod(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -18,17 +19,17 @@ class Mod(commands.Cog):
                        target: discord.Member,
                        reason: str):
             if not ctx.author.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
                                ephemeral=True)
                 return
 
             if target.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="You can't kick another moderator!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="You can't kick another moderator!", color=Colors.error),
                                ephemeral=True)
                 return
 
             if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't kick yourself!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="You can't kick yourself!", color=Colors.error),
                                ephemeral=True)
                 return
 
@@ -36,12 +37,12 @@ class Mod(commands.Cog):
                 await target.kick(reason=reason)
 
                 await ctx.send(
-                    embed=discord.Embed(title=f"``{target.display_name}`` was kicked for ``{reason}``", color=0xffbb00))
+                    embed=discord.Embed(title=f"``{target.display_name}`` was kicked for ``{reason}``", color=Colors.standard))
 
                 print(f"{target.display_name} was kicked")
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
                                ephemeral=True)
 
 
@@ -57,17 +58,17 @@ class Mod(commands.Cog):
                        time: int = 60,
                        reason: str = None):
             if not ctx.author.guild_permissions.mute_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
                                ephemeral=True)
                 return
 
             if target.guild_permissions.moderate_members:
-                await ctx.send(embed=discord.Embed(title="You can't mute another moderator!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="You can't mute another moderator!", color=Colors.error),
                                ephemeral=True)
                 return
 
             if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't mute yourself!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="You can't mute yourself!", color=Colors.error),
                                ephemeral=True)
                 return
 
@@ -80,12 +81,12 @@ class Mod(commands.Cog):
 
                 await ctx.send(embed=discord.Embed(
                     title=f"``{target.display_name}`` has been muted for ``{time}`` seconds and for reason: ``{reason}``",
-                    color=0xffbb00))
+                    color=Colors.standard))
 
                 print(f"{target.display_name} was muted for {time}s")
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
                                ephemeral=True)
 
 
@@ -99,17 +100,17 @@ class Mod(commands.Cog):
                       target: discord.Member,
                       reason: str):
             if not ctx.author.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
                                ephemeral=True)
                 return
 
             if target.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="You can't ban another moderator!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="You can't ban another moderator!", color=Colors.error),
                                ephemeral=True)
                 return
 
             if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't ban yourself!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="You can't ban yourself!", color=Colors.error),
                                ephemeral=True)
                 return
 
@@ -117,12 +118,12 @@ class Mod(commands.Cog):
                 await target.ban(reason=reason, clean_history_duration=datetime.timedelta(days=30))
 
                 await ctx.send(
-                    embed=discord.Embed(title=f"``{target.display_name}`` has been banned for ``{reason}``", color=0xffbb00))
+                    embed=discord.Embed(title=f"``{target.display_name}`` has been banned for ``{reason}``", color=Colors.standard))
 
                 print(f"{target.display_name} has been banned")
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
                                ephemeral=True)
 
 
@@ -133,7 +134,7 @@ class Mod(commands.Cog):
                       ctx,
                       amount: int):
             if not ctx.author.guild_permissions.manage_messages:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
                                ephemeral=True)
                 return
 
@@ -142,12 +143,12 @@ class Mod(commands.Cog):
 
                 await ctx.send(
                     embed=discord.Embed(title=f"``{amount}`` was cleared",
-                                        color=0xffbb00))
+                                        color=Colors.standard))
 
                 print(f"{amount} messages in #{ctx.channel} was gone")
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
                                ephemeral=True)
 
 

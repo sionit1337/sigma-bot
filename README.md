@@ -13,3 +13,9 @@ Just a code for my bot
 - Start the `main.py`
 - ???
 - profit
+
+# TODO
+- [ ] Music cog (not likely)
+- [ ] Math command
+- [ ] Add fields to moderation commands
+- [ ] Warn system (more likely than the music cog)

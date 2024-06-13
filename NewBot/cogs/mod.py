@@ -49,12 +49,12 @@ class Mod(commands.Cog):
         @bot.slash_command(name="mute",
                            description="Disallow target user's ability to speak",
                            options=[discord.Option(name="target", type=discord.OptionType.user, description="Target user for mute", required=True),
-                                    discord.Option(name="time", type=discord.optionType.string, description="Time for mute (e.g. 06d09h04m02s)", required=True),
+                                    discord.Option(name="time", type=discord.OptionType.integer, description="Time for mute in seconds (e.g. typed \"3600\" - mutes for 1 hour)", required=False),
                                     discord.Option(name="reason", type=discord.OptionType.string, description="Reason for mute", required=False)])
         async def mute(self,
                        ctx,
                        target: discord.Member,
-                       time: str = "15s",
+                       time: int = 60,
                        reason: str = None):
             if not ctx.author.guild_permissions.mute_members:
                 await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=0xff0000),
@@ -67,32 +67,22 @@ class Mod(commands.Cog):
                 return
 
             if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't kick yourself!", color=0xff0000),
+                await ctx.send(embed=discord.Embed(title="You can't mute yourself!", color=0xff0000),
                                ephemeral=True)
                 return
 
             try:
-                days, hours, minutes, seconds = 0
+                time = min(2419200, time) # limits time for 2 weeks
 
-                time_pattern = r"(\d+)d(?:(\d+)h)?(?:(\d+)m)?(\d+)s"
-
-                t = re.search()
-
-                if t:
-                    days = int(t.group(1) or 0)
-                    hours = int(t.group(2) or 0)
-                    minutes = int(t.group(2) or 0)
-                    seconds = int(t.group(2))
-
-                duration = datetime.datetime(0, 0, days if days < 27 else 26, hours, minutes, seconds)
+                duration = datetime.timedelta(0, time)
 
                 await target.timeout(duration=duration, reason=reason)
 
                 await ctx.send(embed=discord.Embed(
-                    title=f"``{target.display_name}`` has been muted for ``{days}``d ``{hours}``h ``{minutes}``m ``{seconds}``s and for ``{reason}``",
+                    title=f"``{target.display_name}`` has been muted for ``{time}`` seconds and for reason: ``{reason}``",
                     color=0xffbb00))
 
-                print(f"{target.display_name} was muted for {days}d:{hours}h:{minutes}m:{seconds}s")
+                print(f"{target.display_name} was muted for {time}s")
 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=0xff0000),

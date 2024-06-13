@@ -9,7 +9,7 @@ Just a code for my bot
 # How to setup
 
 - Install dependencies (`pip install -r requirements.txt`)
-- Insert token in `non scripts/config.json`
+- Insert token in `not-scripts/config.json`
 - Start the `main.py`
 - ???
 - profit

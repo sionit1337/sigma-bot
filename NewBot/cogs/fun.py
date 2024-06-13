@@ -63,6 +63,41 @@ class Fun(commands.Cog):
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
                                ephemeral=True)
+                
+
+        # Famous game of rock, paper and scissors
+        @bot.slash_command(name="rock_paper_scissors", description="Famous game of rock, paper and scissors", options=[discord.Option(name="choice", type=discord.OptionType.string, description="Your choice", required=True, choices=[
+            discord.OptionChoice(name="Rock", value="rock"),
+            discord.OptionChoice(name="Paper", value="paper"),
+            discord.OptionChoice(name="Scissors", value="scissors")
+        ])])
+        async def ropasci(self, ctx, choice: str):
+            try:
+                embed = discord.Embed(title="Rock-Paper-Scissors", colors=Colors.standard)
+
+                bot_choice = random.choice(["rock", "paper", "scissors"])
+                result: str
+
+                match (bot_choice, choice):
+                    case ("rock", "scissors") | ("paper", "rock") | ("scissors", "paper"):
+                        result = "bot won"
+
+                    case ("scissors", "scissors") | ("rock", "rock") | ("paper", "paper"):
+                        result = "draw"
+
+                    case ("rock", "paper") | ("paper", "scissors") | ("scissors", "rock"):
+                        result = "you won"
+
+                    case _:
+                        result = "what"
+
+                embed.add_field(name=f"Your choice", value=f"``{choice}``")
+                embed.add_field(name=f"Bot's choice", value=f"``{bot_choice}``")
+                embed.add_field(name=f"Result", value=f"``{result}``")
+                
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
+                               ephemeral=True)
 
 
 def setup(bot: commands.Bot):

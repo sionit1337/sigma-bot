@@ -36,10 +36,14 @@ class Mod(commands.Cog):
             try:
                 await target.kick(reason=reason)
 
-                await ctx.send(
-                    embed=discord.Embed(title=f"``{target.display_name}`` was kicked for ``{reason}``", color=Colors.standard))
+                embed = discord.Embed(title="Kicked", color=Colors.standard)
 
-                print(f"{target.display_name} was kicked")
+                embed.add_field(name="Moderator", value=f"``{ctx.author.display_name}``")
+                embed.add_field(name="Target", value=f"``{target.display_name}``")
+
+                embed.add_field(name="Reason", value=f"``{reason if reason else 'Reason wasn\'t specified'}``")
+
+                await ctx.send(embed=embed)
 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
@@ -79,11 +83,15 @@ class Mod(commands.Cog):
 
                 await target.timeout(duration=duration, reason=reason)
 
-                await ctx.send(embed=discord.Embed(
-                    title=f"``{target.display_name}`` has been muted for ``{time}`` seconds and for reason: ``{reason}``",
-                    color=Colors.standard))
+                embed = discord.Embed(title="Muted", color=Colors.standard)
 
-                print(f"{target.display_name} was muted for {time}s")
+                embed.add_field(name="Moderator", value=f"``{ctx.author.display_name}``")
+                embed.add_field(name="Target", value=f"``{target.display_name}``")
+
+                embed.add_field(name="Time", value=f"``{time}`` second(s)")
+                embed.add_field(name="Reason", value=f"``{reason if reason else 'Reason wasn\'t specified'}``")
+
+                await ctx.send(embed=embed)
 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
@@ -117,17 +125,21 @@ class Mod(commands.Cog):
             try:
                 await target.ban(reason=reason, clean_history_duration=datetime.timedelta(days=30))
 
-                await ctx.send(
-                    embed=discord.Embed(title=f"``{target.display_name}`` has been banned for ``{reason}``", color=Colors.standard))
+                embed = discord.Embed(title="Banned", color=Colors.standard)
 
-                print(f"{target.display_name} has been banned")
+                embed.add_field(name="Moderator", value=f"``{ctx.author.display_name}``")
+                embed.add_field(name="Target", value=f"``{target.display_name}``")
+
+                embed.add_field(name="Reason", value=f"``{reason if reason else 'Reason wasn\'t specified'}``")
+
+                await ctx.send(embed=embed)
 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
                                ephemeral=True)
 
 
-        @bot.slash_command(name="clear",
+        @bot.slash_command(name="purge",
                            description="Cleans chat from selected number of messages",
                            options=[discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True)])
         async def ban(self,
@@ -141,11 +153,13 @@ class Mod(commands.Cog):
             try:
                 await ctx.channel.purge(limit=amount)
 
-                await ctx.send(
-                    embed=discord.Embed(title=f"``{amount}`` was cleared",
-                                        color=Colors.standard))
+                embed = discord.Embed(title="Cleared messages", color=Colors.standard)
 
-                print(f"{amount} messages in #{ctx.channel} was gone")
+                embed.add_field(name="Moderator", value=f"``{ctx.author.display_name}``")
+
+                embed.add_field(name="Amount", value=f"``{amount}`` messages")
+
+                await ctx.send(embed=embed)
 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),

@@ -27,7 +27,7 @@ class Fun(commands.Cog):
                     image = data["image"]
                     fact = data["fact"]
 
-                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"Fact: ``{fact}`` \n(it's embedded in API y'know)", color=Colors.standard)
+                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
                     embed.set_image(url=image)
 
                 elif response.status_code >= 400:
@@ -104,19 +104,19 @@ class Fun(commands.Cog):
         @bot.slash_command(name="rand", description="Generate random number", options=[discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
         async def rand(self, ctx, min: int, max: int):
             try:
-
                 randvalue = random.randint(min, max)
+
                 embed = discord.Embed(title="Random value", description=f"# ``{randvalue}``", color=Colors.standard)
 
                 embed.add_field(name="Min value", value=f"``{min}``")
                 embed.add_field(name="Max value", value=f"``{max}``")
+
+                await ctx.send(embed=embed)
                 
             except Exception as e:
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
                                ephemeral=True)
-
-
-
+                
 
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))

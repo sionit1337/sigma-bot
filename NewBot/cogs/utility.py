@@ -92,5 +92,27 @@ class Utility(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
+        # Math
+        @bot.slash_command(name="math", description="Solve math expression", options=[discord.Option(name="expr", type=discord.OptionType.string, description="Expression", required=True)])
+        async def math(self, ctx, expr: str):
+            try:
+                def solve(expr: str):
+                    solved: float
+
+                    # Insert implemention here... (!!!WITHOUT eval()!!!)
+
+                    return solved
+
+                embed = discord.Embed(title="Math expression", description=f"# ``TODO``", color=Colors.standard)
+
+                embed.add_field(name="Expression", value=f"``{expr}``")
+
+                await ctx.send(embed=embed)
+                
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
+                               ephemeral=True)
+
+
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))

@@ -16,6 +16,6 @@ Just a code for my bot
 
 # TODO
 - [ ] Music cog (not likely)
-- [ ] Math command
+- [ ] Math command (without eval() and with `math` module support)
 - [ ] Add fields to moderation commands
 - [ ] Warn system (more likely than the music cog)

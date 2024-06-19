@@ -42,10 +42,6 @@ class AITools(commands.Cog):
         @bot.slash_command(name="gpt", description="Ask ChatGPT", options=[
             discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
         async def ai(self, ctx, prompt: str):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 response = get_ai_response(prompt)
 
@@ -68,10 +64,6 @@ class AITools(commands.Cog):
         @bot.slash_command(name="imagine", description="Generate image with Craiyon", options=[
             discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
         async def imagine(self, ctx, prompt: str):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 generator = craiyon.Craiyon()
 

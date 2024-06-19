@@ -8,15 +8,18 @@ Just a code for my bot
 
 # How to setup
 
-- Clone repo
-- Install dependencies (`pip install -r requirements.txt`)
-- Insert token (`not-scripts/config.json`)
-- Start `main.py`
+Just start the launcher and follow instructions
 
 # TODO
 
 - [ ] Music cog (not likely)
-- [ ] Math command (without eval() and with `math` module support)
-- [x] Add fields to moderation commands
+
+- [x] Math command (without `eval()` and with `math` module support)
+
+  - for now just without `eval()`
+
 - [ ] Warn system (more likely than the music cog)
+
 - [ ] Launcher (wanna start simple but in future make update check)
+
+  - For now simple and I want to make `check_config()` using RegEx

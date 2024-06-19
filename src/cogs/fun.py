@@ -18,10 +18,6 @@ class Fun(commands.Cog):
             discord.OptionChoice(name="Cat", value="cat"),
             discord.OptionChoice(name="Fox", value="fox")])])
         async def send_animal(self, ctx, animal: str):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 response = requests.get(f"https://some-random-api.com/animal/{animal}")
                 data = response.json()
@@ -48,10 +44,6 @@ class Fun(commands.Cog):
         @bot.slash_command(name="ball8", description="Asks oracle and answers your questions", options=[
             discord.Option(name="question", type=discord.OptionType.string, description="Your question", required=True)])
         async def ball8(self, ctx, question: str):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 answers_positive = ["Definitely yes", "It is certain", "You can rely on it"]
                 answers_negative = ["Very doubtful", "My reply is no", "Don't count on it"]
@@ -75,10 +67,6 @@ class Fun(commands.Cog):
             discord.OptionChoice(name="Paper", value="paper"),
             discord.OptionChoice(name="Scissors", value="scissors")])])
         async def ropasci(self, ctx, choice: str):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 embed = discord.Embed(title="Rock-Paper-Scissors", colors=Colors.standard)
 
@@ -130,10 +118,6 @@ class Fun(commands.Cog):
         # Echo
         @bot.slash_command(name="echo", description="Send message from bot's name", options=[discord.Option(name="text", type=discord.OptionType.integer, description="Text for sending", required=True)])
         async def echo(self, ctx, text: str):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 await ctx.send(embed=discord.Embed(title="Dummy message :P", color=Colors.standard), ephemeral=True)
 

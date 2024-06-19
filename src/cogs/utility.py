@@ -5,6 +5,8 @@ from main import (Colors, blacklist)
 
 from psutil import cpu_percent, virtual_memory
 
+from numexpr import evaluate
+
 
 class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -13,10 +15,6 @@ class Utility(commands.Cog):
         # Server info command
         @bot.slash_command(name="server_info", description="Main info about current server")
         async def server_info(self, ctx):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 server = ctx.guild
 
@@ -43,10 +41,6 @@ class Utility(commands.Cog):
         @bot.slash_command(name="user_info", description="Info about target user", options=[
             discord.Option(name="member", type=discord.OptionType.user, description="User (on current server; you if not specified)", required=False)])
         async def user_info(self, ctx, member: discord.Member = None):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 if member is None:
                     member = ctx.author
@@ -77,10 +71,6 @@ class Utility(commands.Cog):
         # Host info command
         @bot.slash_command(name="host", description="Sends an info about bot's host (RAM load, ping, CPU load)")
         async def host(self, ctx):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 cpu = cpu_percent()
 
@@ -107,19 +97,15 @@ class Utility(commands.Cog):
         @bot.slash_command(name="math", description="Solve math expression", options=[
             discord.Option(name="expr", type=discord.OptionType.string, description="Expression", required=True)])
         async def math(self, ctx, expr: str):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-
             try:
                 def solve(expr: str):
                     solved: float
 
-                    # Insert implemention here... (!!!WITHOUT eval()!!!)
+                    solved = evaluate(expr)
 
                     return solved
 
-                embed = discord.Embed(title="Math expression", description=f"# ``TODO``", color=Colors.standard)
+                embed = discord.Embed(title="Math expression", description=f"# ``{solve(expr)}``", color=Colors.standard)
 
                 embed.add_field(name="Expression", value=f"``{expr}``")
 

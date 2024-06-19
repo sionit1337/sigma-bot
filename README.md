@@ -8,11 +8,10 @@ Just a code for my bot
 
 # How to setup
 
+- Clone repo
 - Install dependencies (`pip install -r requirements.txt`)
-- Insert token in `not-scripts/config.json`
-- Start the `main.py`
-- ???
-- profit
+- Insert token (`not-scripts/config.json`)
+- Start `main.py`
 
 # TODO
 
@@ -20,3 +19,4 @@ Just a code for my bot
 - [ ] Math command (without eval() and with `math` module support)
 - [x] Add fields to moderation commands
 - [ ] Warn system (more likely than the music cog)
+- [ ] Launcher (wanna start simple but in future make update check)

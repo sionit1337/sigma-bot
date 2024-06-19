@@ -1,6 +1,6 @@
 {
-    "Token": "paste it yourself",
-    "OpenAI_Key": "paste it yourself",
+    "Token": "none",
+    "OpenAI_Key": "none",
     "Whitelist": [
         885576438646972496
     ],

@@ -118,5 +118,21 @@ class Fun(commands.Cog):
                                ephemeral=True)
                 
 
+        # Echo
+        @bot.slash_command(name="echo", description="Send message from bot's name", options=[discord.Option(name="text", type=discord.OptionType.integer, description="Text for sending", required=True)])
+        async def echo(self, ctx, text: str):
+            try:
+                await ctx.send(embed=discord.Embed(title="Dummy message :P", color=Colors.standard), ephemeral=True)
+
+                text = text.replace("<@everyone>", "[everyone]")
+                text = text.replace("<@here>", "[here]")
+
+                await ctx.send(text)
+                
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
+                               ephemeral=True)
+                
+
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))

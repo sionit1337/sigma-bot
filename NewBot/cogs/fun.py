@@ -16,8 +16,7 @@ class Fun(commands.Cog):
         @bot.slash_command(name="send_animal", description="Sends animal on your choice in chat", options=[discord.Option(name="animal", type=discord.OptionType.string, description="Your animal", required=True, choices=[
             discord.OptionChoice(name="Dog", value="dog"),
             discord.OptionChoice(name="Cat", value="cat"),
-            discord.OptionChoice(name="Fox", value="fox")
-        ])])
+            discord.OptionChoice(name="Fox", value="fox")])])
         async def send_animal(self, ctx, animal: str):
             try:
                 response = requests.get(f"https://some-random-api.com/animal/{animal}")
@@ -38,8 +37,7 @@ class Fun(commands.Cog):
                 await ctx.send(embed=embed)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
 
 
         # Oracle (not Java vendor)
@@ -61,16 +59,14 @@ class Fun(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
                 
 
         # Famous game of rock, paper and scissors
         @bot.slash_command(name="rock_paper_scissors", description="Famous game of rock, paper and scissors", options=[discord.Option(name="choice", type=discord.OptionType.string, description="Your choice", required=True, choices=[
             discord.OptionChoice(name="Rock", value="rock"),
             discord.OptionChoice(name="Paper", value="paper"),
-            discord.OptionChoice(name="Scissors", value="scissors")
-        ])])
+            discord.OptionChoice(name="Scissors", value="scissors")])])
         async def ropasci(self, ctx, choice: str):
             try:
                 embed = discord.Embed(title="Rock-Paper-Scissors", colors=Colors.standard)
@@ -96,8 +92,7 @@ class Fun(commands.Cog):
                 embed.add_field(name=f"Result", value=f"``{result}``")
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
                 
 
         # Random value
@@ -114,8 +109,7 @@ class Fun(commands.Cog):
                 await ctx.send(embed=embed)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
                 
 
         # Echo
@@ -130,8 +124,7 @@ class Fun(commands.Cog):
                 await ctx.send(text)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
                 
 
 def setup(bot: commands.Bot):

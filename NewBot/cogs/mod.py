@@ -10,27 +10,20 @@ class Mod(commands.Cog):
         self.bot = bot
 
         # Kick command
-        @bot.slash_command(name="kick",
-                           description="Kicks selected user from server",
-                           options=[discord.Option(name="target", type=discord.OptionType.user, description="Target user", required=True),
-                                    discord.Option(name="reason", type=discord.OptionType.string, description="Reason for kick", required=False)])
-        async def kick(self,
-                       ctx,
-                       target: discord.Member,
-                       reason: str):
+        @bot.slash_command(name="kick", description="Kicks selected user from server", options=[
+            discord.Option(name="target", type=discord.OptionType.user, description="Target user", required=True), 
+            discord.Option(name="reason", type=discord.OptionType.string, description="Reason for kick", required=False)])
+        async def kick(self, ctx, target: discord.Member, reason: str):
             if not ctx.author.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
 
             if target.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="You can't kick another moderator!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="You can't kick another moderator!", color=Colors.error), ephemeral=True)
                 return
 
             if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't kick yourself!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="You can't kick yourself!", color=Colors.error), ephemeral=True)
                 return
 
             try:
@@ -46,34 +39,25 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
         # Mute command
-        @bot.slash_command(name="mute",
-                           description="Disallow target user's ability to speak",
-                           options=[discord.Option(name="target", type=discord.OptionType.user, description="Target user for mute", required=True),
-                                    discord.Option(name="time", type=discord.OptionType.integer, description="Time for mute in seconds (e.g. typed \"3600\" - mutes for 1 hour)", required=False),
-                                    discord.Option(name="reason", type=discord.OptionType.string, description="Reason for mute", required=False)])
-        async def mute(self,
-                       ctx,
-                       target: discord.Member,
-                       time: int = 60,
-                       reason: str = None):
+        @bot.slash_command(name="mute", description="Disallow target user's ability to speak", options=[
+            discord.Option(name="target", type=discord.OptionType.user, description="Target user for mute", required=True),
+            discord.Option(name="time", type=discord.OptionType.integer, description="Time for mute in seconds (e.g. typed \"3600\" - mutes for 1 hour)", required=False),
+            discord.Option(name="reason", type=discord.OptionType.string, description="Reason for mute", required=False)])
+        async def mute(self, ctx, target: discord.Member, time: int = 60, reason: str = None):
             if not ctx.author.guild_permissions.mute_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
 
             if target.guild_permissions.moderate_members:
-                await ctx.send(embed=discord.Embed(title="You can't mute another moderator!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="You can't mute another moderator!", color=Colors.error), ephemeral=True)
                 return
 
             if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't mute yourself!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="You can't mute yourself!", color=Colors.error), ephemeral=True)
                 return
 
             try:
@@ -94,32 +78,24 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
         # Ban command
-        @bot.slash_command(name="ban",
-                           description="Kicks user AND disallows him to return",
-                           options=[discord.Option(name="target", type=discord.OptionType.user, description="Target user for ban", required=True),
-                                    discord.Option(name="reason", type=discord.OptionType.string, description="Ban reason", required=False)])
-        async def ban(self,
-                      ctx,
-                      target: discord.Member,
-                      reason: str):
+        @bot.slash_command(name="ban", description="Kicks user AND disallows him to return", options=[
+            discord.Option(name="target", type=discord.OptionType.user, description="Target user for ban", required=True),
+            discord.Option(name="reason", type=discord.OptionType.string, description="Ban reason", required=False)])
+        async def ban(self, ctx, target: discord.Member, reason: str):
             if not ctx.author.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
 
             if target.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="You can't ban another moderator!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="You can't ban another moderator!", color=Colors.error), ephemeral=True)
                 return
 
             if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't ban yourself!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="You can't ban yourself!", color=Colors.error), ephemeral=True)
                 return
 
             try:
@@ -135,29 +111,31 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
-        @bot.slash_command(name="purge",
-                           description="Cleans chat from selected number of messages",
-                           options=[discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True)])
-        async def ban(self,
-                      ctx,
-                      amount: int):
+        @bot.slash_command(name="clear", description="Cleans chat from selected number of messages", options=[
+            discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True),
+            discord.Option(name="target", type=discord.OptionType.user, description="Target user (only their messages will be deleted if specified)", required=False)])
+        async def ban(self, ctx, amount: int, target: discord.Member=None):
             if not ctx.author.guild_permissions.manage_messages:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
 
             try:
-                await ctx.channel.purge(limit=amount)
+                def check(msg):
+                    if target:
+                        return msg.author == target
+                    return None
+
+                await ctx.channel.purge(limit=amount, check=check)
 
                 embed = discord.Embed(title="Cleared messages", color=Colors.standard)
 
                 embed.add_field(name="Moderator", value=f"``{ctx.author.display_name}``")
 
                 embed.add_field(name="Amount", value=f"``{amount}`` messages")
+                embed.add_field(name="Target", value=f"``{target.display_name if target else 'Not specified'}``")
 
                 await ctx.send(embed=embed)
 

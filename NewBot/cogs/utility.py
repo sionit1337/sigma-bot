@@ -37,8 +37,8 @@ class Utility(commands.Cog):
 
 
         # User info command
-        @bot.slash_command(name="user_info", description="Info about target user",
-                           options=[discord.Option(name="member", type=discord.OptionType.user, description="User (on current server)", required=False)])
+        @bot.slash_command(name="user_info", description="Info about target user", options=[
+            discord.Option(name="member", type=discord.OptionType.user, description="User (on current server; you if not specified)", required=False)])
         async def user_info(self, ctx, member: discord.Member = None):
             if member is None:
                 member = ctx.author
@@ -74,6 +74,7 @@ class Utility(commands.Cog):
             cpu = cpu_percent()
 
             ram_percent = virtual_memory().percent
+            # 1 megabyte is 1048576 bytes y'know
             ram_used = round(virtual_memory().used / 1048576)
             ram_total = round(virtual_memory().total / 1048576)
 
@@ -82,7 +83,7 @@ class Utility(commands.Cog):
             try:
                 embed = discord.Embed(title="Host stats", color=Colors.standard)
 
-                embed.add_field(name="Ping", value=f"``{ping}`` ms")
+                embed.add_field(name="Ping", value=f"``{ping}ms``")
                 embed.add_field(name="CPU", value=f"``{cpu}%``")
                 embed.add_field(name="RAM", value=f"``{ram_percent}``% (``{ram_used}``/``{ram_total}`` Mb)")
 
@@ -93,7 +94,8 @@ class Utility(commands.Cog):
 
 
         # Math
-        @bot.slash_command(name="math", description="Solve math expression", options=[discord.Option(name="expr", type=discord.OptionType.string, description="Expression", required=True)])
+        @bot.slash_command(name="math", description="Solve math expression", options=[
+            discord.Option(name="expr", type=discord.OptionType.string, description="Expression", required=True)])
         async def math(self, ctx, expr: str):
             try:
                 def solve(expr: str):
@@ -110,8 +112,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
 
 
 def setup(bot: commands.Bot):

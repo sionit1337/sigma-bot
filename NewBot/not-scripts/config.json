@@ -1,4 +1,10 @@
 {
     "Token": "paste it yourself",
-    "OpenAI_Key": "paste it yourself"
+    "OpenAI_Key": "paste it yourself",
+    "Whitelist": [
+        885576438646972496
+    ],
+    "Blacklist": [
+        
+    ]
 }

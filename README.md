@@ -15,7 +15,8 @@ Just a code for my bot
 - profit
 
 # TODO
+
 - [ ] Music cog (not likely)
 - [ ] Math command (without eval() and with `math` module support)
-- [ ] Add fields to moderation commands
+- [x] Add fields to moderation commands
 - [ ] Warn system (more likely than the music cog)

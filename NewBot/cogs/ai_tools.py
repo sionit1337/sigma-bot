@@ -3,7 +3,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import Colors
+from main import (Colors, blacklist)
 
 import openai
 from json import load
@@ -39,11 +39,16 @@ class AITools(commands.Cog):
 
 
         # Command to talk with ChatGPT
-        @bot.slash_command(name="gpt", description="Ask ChatGPT", options=[discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
+        @bot.slash_command(name="gpt", description="Ask ChatGPT", options=[
+            discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
         async def ai(self, ctx, prompt: str):
-            response = get_ai_response(prompt)
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
 
             try:
+                response = get_ai_response(prompt)
+
                 await ctx.send(embed=discord.Embed(title="ChatGPT thinking...", color=Colors.standard))
 
                 if len(response) <= 2000:
@@ -60,11 +65,16 @@ class AITools(commands.Cog):
                 
 
         # Command to generate images
-        @bot.slash_command(name="imagine", description="Generate image with Craiyon", options=[ discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
-        async def ai(self, ctx, prompt: str):
-            generator = craiyon.Craiyon()
+        @bot.slash_command(name="imagine", description="Generate image with Craiyon", options=[
+            discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
+        async def imagine(self, ctx, prompt: str):
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
 
             try:
+                generator = craiyon.Craiyon()
+
                 embed = discord.Embed(title="Generating...", color=Colors.standard)
                 await ctx.send(embed=embed)
 

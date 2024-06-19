@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import Colors
+from main import (Colors, blacklist)
 
 from psutil import cpu_percent, virtual_memory
 
@@ -13,9 +13,13 @@ class Utility(commands.Cog):
         # Server info command
         @bot.slash_command(name="server_info", description="Main info about current server")
         async def server_info(self, ctx):
-            server = ctx.guild
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
 
             try:
+                server = ctx.guild
+
                 embed = discord.Embed(title=f"``{server.name}``", color=Colors.standard)
 
                 embed.set_thumbnail(url=server.icon.url)
@@ -32,20 +36,23 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
         # User info command
         @bot.slash_command(name="user_info", description="Info about target user", options=[
             discord.Option(name="member", type=discord.OptionType.user, description="User (on current server; you if not specified)", required=False)])
         async def user_info(self, ctx, member: discord.Member = None):
-            if member is None:
-                member = ctx.author
-
-            role_names = [role.name for role in member.roles[1:]]
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
 
             try:
+                if member is None:
+                    member = ctx.author
+
+                role_names = [role.name for role in member.roles[1:]]
+
                 embed = discord.Embed(title=f"``{member.display_name}``", color=Colors.standard)
                 embed.set_thumbnail(member.avatar.url)
 
@@ -70,17 +77,20 @@ class Utility(commands.Cog):
         # Host info command
         @bot.slash_command(name="host", description="Sends an info about bot's host (RAM load, ping, CPU load)")
         async def host(self, ctx):
-
-            cpu = cpu_percent()
-
-            ram_percent = virtual_memory().percent
-            # 1 megabyte is 1048576 bytes y'know
-            ram_used = round(virtual_memory().used / 1048576)
-            ram_total = round(virtual_memory().total / 1048576)
-
-            ping = round(bot.latency * 1000)
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
 
             try:
+                cpu = cpu_percent()
+
+                ram_percent = virtual_memory().percent
+                # 1 megabyte is 1048576 bytes y'know
+                ram_used = round(virtual_memory().used / 1048576)
+                ram_total = round(virtual_memory().total / 1048576)
+
+                ping = round(bot.latency * 1000)
+
                 embed = discord.Embed(title="Host stats", color=Colors.standard)
 
                 embed.add_field(name="Ping", value=f"``{ping}ms``")
@@ -97,6 +107,10 @@ class Utility(commands.Cog):
         @bot.slash_command(name="math", description="Solve math expression", options=[
             discord.Option(name="expr", type=discord.OptionType.string, description="Expression", required=True)])
         async def math(self, ctx, expr: str):
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
+
             try:
                 def solve(expr: str):
                     solved: float

@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import Colors
+from main import (Colors, blacklist)
 
 import datetime
 
@@ -14,6 +14,10 @@ class Mod(commands.Cog):
             discord.Option(name="target", type=discord.OptionType.user, description="Target user", required=True), 
             discord.Option(name="reason", type=discord.OptionType.string, description="Reason for kick", required=False)])
         async def kick(self, ctx, target: discord.Member, reason: str):
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
+
             if not ctx.author.guild_permissions.kick_members:
                 await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
@@ -48,6 +52,10 @@ class Mod(commands.Cog):
             discord.Option(name="time", type=discord.OptionType.integer, description="Time for mute in seconds (e.g. typed \"3600\" - mutes for 1 hour)", required=False),
             discord.Option(name="reason", type=discord.OptionType.string, description="Reason for mute", required=False)])
         async def mute(self, ctx, target: discord.Member, time: int = 60, reason: str = None):
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
+
             if not ctx.author.guild_permissions.mute_members:
                 await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
@@ -86,6 +94,10 @@ class Mod(commands.Cog):
             discord.Option(name="target", type=discord.OptionType.user, description="Target user for ban", required=True),
             discord.Option(name="reason", type=discord.OptionType.string, description="Ban reason", required=False)])
         async def ban(self, ctx, target: discord.Member, reason: str):
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
+
             if not ctx.author.guild_permissions.kick_members:
                 await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
@@ -118,6 +130,10 @@ class Mod(commands.Cog):
             discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True),
             discord.Option(name="target", type=discord.OptionType.user, description="Target user (only their messages will be deleted if specified)", required=False)])
         async def ban(self, ctx, amount: int, target: discord.Member=None):
+            if ctx.author in blacklist:
+                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
+                return
+
             if not ctx.author.guild_permissions.manage_messages:
                 await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
@@ -140,8 +156,7 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),
-                               ephemeral=True)
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
 def setup(bot: commands.Bot):

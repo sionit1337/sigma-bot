@@ -69,6 +69,29 @@ class Utility(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
 
 
+        # Bot info command
+        @bot.slash_command(name="about", description="Main info about Sigma Bot")
+        async def about(self, ctx):
+            try:
+                client = bot.user
+                with open("../../current-version") as file:
+                    version = file.read()
+
+                embed = discord.Embed(title=f"``{client.display_name}``", description="Just a bot with standard features", color=Colors.standard)
+
+                embed.set_thumbnail(url=client.avatar.url)
+
+                embed.add_field(name="Repository", value="https://github.com/sionit1337/sigma-bot")
+                embed.add_field(name="Bot ID", value=f"``{client.id}``")
+
+                embed.add_field(name="Version", value=f"``{version}``")
+
+                await ctx.send(embed=embed)
+
+            except Exception as e:
+                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+
+
         # Host info command
         @bot.slash_command(name="host", description="Sends an info about bot's host (RAM load, ping, CPU load)")
         async def host(self, ctx):
@@ -112,7 +135,7 @@ class Utility(commands.Cog):
                     }
 
                     solved = eval(compile(parsed_expression, filename="", mode="eval"), {}, allowed_names)
-                    
+
                     return solved
 
 

@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, blacklist)
+from main import Colors
 
 import datetime
 

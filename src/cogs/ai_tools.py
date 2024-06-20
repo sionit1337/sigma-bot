@@ -1,9 +1,7 @@
-# This cog is optional
-
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, blacklist)
+from main import Colors
 
 import openai
 from json import load
@@ -27,12 +25,12 @@ class AITools(commands.Cog):
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system",
-                     "content": f"Your name is {bot.user.display_name} and you are a bot that helps"}, # Change for your needs
+                     "content": f"Your name is {bot.user.display_name} and you are a bot that helps"},
                     {"role": "user", "content": ai_prompt}
                 ],
                 n=1,
                 max_tokens=500,
-                temperature=.7 # Change for your needs
+                temperature=.7
             )
 
             return str(response.choices[0].message.content)

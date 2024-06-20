@@ -28,7 +28,7 @@ class Bot(commands.InteractionBot):
         await self.load_extension("cogs.utility")
         await self.load_extension("cogs.fun")
         await self.load_extension("cogs.music")
-#       await self.load_extension("cogs.ai_tools")    optional
+        await self.load_extension("cogs.ai_tools")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, blacklist)
+from main import Colors
 
 import random
 
@@ -97,10 +97,6 @@ class Fun(commands.Cog):
         # Random value
         @bot.slash_command(name="rand", description="Generate random number", options=[discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
         async def rand(self, ctx, min: int, max: int):
-            if ctx.author in blacklist:
-                await ctx.send(embed=discord.Embed(title="your in blacklist lol", color=Colors.error), ephemeral=True)
-                return
-        
             try:
                 randvalue = random.randint(min, max)
 

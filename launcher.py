@@ -25,6 +25,8 @@ class Launcher:
             with open("src/not-scripts/config.json", "w") as file:
                 file.write(f"{config}".replace("'", "\""))
 
+            self.download_python_libs()
+            
             print("Now restart the launcher")
 
         else:
@@ -101,7 +103,6 @@ class Launcher:
         print("Hello! You're using Sigma Bot! \nDon't forget to star the repository!")
 
         self.check_updates()
-        self.download_python_libs()
         self.check_config()
 
 

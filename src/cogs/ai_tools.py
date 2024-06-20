@@ -8,7 +8,7 @@ from json import load
 import craiyon
 from random import choice
 
-with open(u"./non scripts/config.json", "r") as file:
+with open(u"../non scripts/config.json", "r") as file:
     config = load(file)
 
 

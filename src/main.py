@@ -10,9 +10,7 @@ class Colors:
     todo = 0x5500ff
 
 
-path = "not-scripts/config.json"
-
-with open(path, "r") as file:
+with open("not-scripts/config.json", "r") as file:
     config = load(file)
 
 intents = discord.Intents.all()

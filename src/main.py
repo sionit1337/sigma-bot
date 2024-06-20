@@ -15,8 +15,6 @@ path = "not-scripts/config.json"
 with open(path, "r") as file:
     config = load(file)
 
-blacklist = config["Blacklist"]
-
 intents = discord.Intents.all()
 
 class Bot(commands.InteractionBot):

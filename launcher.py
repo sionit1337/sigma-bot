@@ -10,7 +10,7 @@ with open("src/not-scripts/config.json", "r") as file:
 def check_config():
     print("Checking config for token...")
 
-    pattern = re.compile("([-a-zA-Z0-9_]{24}.[-a-zA-Z0-9_]{6}.[-a-zA-Z0-9_]{27})")
+    pattern = re.compile("([-a-zA-Z0-9_].[-a-zA-Z0-9_].[-a-zA-Z0-9_])")
     match = re.search(pattern, config["Token"])
     if not match:
         print("You didn't inserted bot token")

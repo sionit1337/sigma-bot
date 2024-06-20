@@ -20,6 +20,6 @@ Just start the launcher and follow instructions
 
 - [ ] Warn system (more likely than the music cog)
 
-- [ ] Launcher (wanna start simple but in future make update check)
+- [x] Launcher (wanna start simple but in future make update check)
 
   - For now simple and I want to make `check_config()` using RegEx

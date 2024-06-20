@@ -37,21 +37,20 @@ class Launcher:
     def check_updates(self):
         print("Checking for updates...")
 
-        with open("current-version", "r") as file:
-            local_version = file.read()
+        latest_config = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/src/not-scripts/config.json")
+        if latest_config.status_code != 200:
+            print(f"Something went wrong and launcher cannot get the version \nStatus code: {latest_config.status_code}")
 
-        repo_version = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/current-version")
-        if repo_version.status_code != 200:
-            print(f"Something went wrong and launcher cannot get the version \nStatus code: {repo_version.status_code}")
+        data = latest_config.json()
+        latest_version = data["Version"]
+        local_version = config["Version"]
+        print(f"Installed: {local_version} | Latest: {latest_version}")
 
-            latest_version = repo_version.content.decode("utf-8")
-            print(f"Installed: {local_version} | Latest: {latest_version}")
+        if local_version != latest_version:
+            print(f"New update: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
 
-            if local_version != latest_version:
-                print(f"New update: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
-
-            else:
-                print("No updates found")
+        else:
+            print("No updates found")
 
 
     def download_python_libs(self):

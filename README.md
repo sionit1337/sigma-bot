@@ -20,6 +20,6 @@ Just start the launcher and follow instructions
 
 - [ ] Warn system (more likely than the music cog)
 
-- [x] Launcher (wanna start simple but in future make update check)
+- [x] Launcher
 
-  - For now without update check
+  - For now without update download

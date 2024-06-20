@@ -1,6 +1,7 @@
 from json import load
 import os
 import re
+import requests
 
 with open("src/not-scripts/config.json", "r") as file:
     config = load(file)
@@ -24,12 +25,24 @@ def check_config():
         start()
 
 
+def check_updates():
+    with open("current-version", "r") as file:
+        local_version = file.read()
+
+    latest_version = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/current_version")
+    print(f"{latest_version} | {local_version}")
+
+
 def start():
     os.system(f"pip install -r {os.abspath("requirements.txt")} -U")
     os.system(f"python {os.abspath("src/main.py")}")
 
 
 if __name__ == "__main__":
-    os.system("clear" if os.path.exists("/usr/bin/clear") else "cls")
+    os.system("cls" if os.name == "nt" else "clear")
     print("Hello! You're using Sigma Bot! \nDon't forget to star the repository!")
+
+    print("Checking for updates...")
+    check_updates()
+
     check_config()

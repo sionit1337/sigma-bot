@@ -14,12 +14,8 @@ Just start the launcher and follow instructions
 
 - [ ] Music cog (not likely)
 
-- [x] Math command (without `eval()` and with `math` module support)
-
-  - for now just without `eval()`
+- [x] Math command
 
 - [ ] Warn system (more likely than the music cog)
 
 - [x] Launcher
-
-  - For now without update download

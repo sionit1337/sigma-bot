@@ -5,7 +5,8 @@ from main import Colors
 
 from psutil import cpu_percent, virtual_memory
 
-from numexpr import evaluate
+import ast
+import math
 
 
 class Utility(commands.Cog):
@@ -99,11 +100,21 @@ class Utility(commands.Cog):
         async def math(self, ctx, expr: str):
             try:
                 def solve(expr: str):
-                    solved: float
+                    parsed_expression = ast.parse(expr, mode="eval")
 
-                    solved = evaluate(expr)
+                    allowed_names = {
+                    'sin': math.sin,
+                    'cos': math.cos,
+                    'tan': math.tan,
+                    'log': math.log,
+                    'sqrt': math.sqrt,
+                    **vars(math)
+                    }
 
+                    solved = eval(compile(parsed_expression, filename="", mode="eval"), {}, allowed_names)
+                    
                     return solved
+
 
                 embed = discord.Embed(title="Math expression", description=f"# ``{solve(expr)}``", color=Colors.standard)
 

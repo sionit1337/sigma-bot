@@ -10,6 +10,10 @@ Just a code for my bot
 
 Just start the launcher and follow instructions
 
+Major dependencies:
+
+- Python 3.x
+
 # TODO
 
 - [ ] Music cog (not likely)
@@ -18,4 +22,4 @@ Just start the launcher and follow instructions
 
 - [ ] Warn system (more likely than the music cog)
 
-- [x] Launcher
+- [ ] Update downloader in launcher

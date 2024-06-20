@@ -62,14 +62,18 @@ class Launcher:
                 print(f"New minor version: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
 
             case (True, False) | (True, True):
-                print(f"New major version: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
+                print(f"New major version: {latest_version}! \nInstalling...")
+                self.download_update()
 
             case _:
                 print("what")
 
 
     def download_update(self):
-        pass # TODO
+        if not os.path.exists(os.path.abspath("updated")):
+            os.mkdir("updated")
+
+        os.system("git clone https://github.com/sionit1337/sigma-bot")
 
 
     def download_python_libs(self):

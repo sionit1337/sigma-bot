@@ -12,7 +12,8 @@ Just start the launcher and follow instructions
 
 Major dependencies:
 
-- Python 3.x
+- Python (3.x)
+- Git (any version that has `clone` command)
 
 # TODO
 
@@ -22,4 +23,4 @@ Major dependencies:
 
 - [ ] Warn system (more likely than the music cog)
 
-- [ ] Update downloader in launcher
+- [x] Update downloader in launcher

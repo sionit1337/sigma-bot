@@ -51,7 +51,7 @@ class AITools(commands.Cog):
                     await ctx.edit_original_response(embed=discord.Embed(description=response, color=Colors.standard))
 
                 else:
-                    with open("temp/gpt_answer.txt", "w") as file:
+                    with open("../not-scripts/response.txt", "w") as file:
                         file.write(response)
 
                         await ctx.edit_original_response(embed=discord.Embed(title=f"Response's text was longer than Discord limits ({len(response)}/2000), so I send it as a file", color=Colors.standard), file=file)

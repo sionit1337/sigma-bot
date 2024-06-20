@@ -22,4 +22,4 @@ Just start the launcher and follow instructions
 
 - [x] Launcher (wanna start simple but in future make update check)
 
-  - For now simple and I want to make `check_config()` using RegEx
+  - For now without update check

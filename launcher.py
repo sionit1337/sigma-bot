@@ -44,38 +44,14 @@ class Launcher:
         if repo_version.status_code != 200:
             print(f"Something went wrong and launcher cannot get the version \nStatus code: {repo_version.status_code}")
 
-        latest_version = repo_version.content.decode("utf-8")
-        print(f"Installed: {local_version} | Latest: {latest_version}")
+            latest_version = repo_version.content.decode("utf-8")
+            print(f"Installed: {local_version} | Latest: {latest_version}")
 
-        local_version_splitted = local_version.split(".")
-        latest_version_splitted = latest_version.split(".")
+            if local_version != latest_version:
+                print(f"New update: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
 
-        local_version_major = int(local_version_splitted[0])
-        local_version_minor = int(local_version_splitted[1])
-
-        latest_version_major = int(latest_version_splitted[0])
-        latest_version_minor = int(latest_version_splitted[1])
-
-        match (latest_version_major > local_version_major, latest_version_minor > local_version_minor):
-            case (False, False):
-                print("No updates found!")
-
-            case (False, True):
-                print(f"New minor version: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
-
-            case (True, False) | (True, True):
-                print(f"New major version: {latest_version}! \nInstalling...")
-                self.download_update()
-
-            case _:
-                print("what")
-
-
-    def download_update(self):
-        if not os.path.exists(os.path.abspath("updated")):
-            os.mkdir("updated")
-
-        os.system("git clone https://github.com/sionit1337/sigma-bot")
+            else:
+                print("No updates found")
 
 
     def download_python_libs(self):

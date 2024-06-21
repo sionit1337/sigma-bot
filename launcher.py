@@ -40,7 +40,7 @@ class Launcher:
     def check_updates(self):
         print("Checking for updates...")
 
-        latest_config = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/src/not-scripts/config.json")
+        latest_config = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/bot/not-scripts/config.json")
         if latest_config.status_code != 200:
             print(f"Something went wrong and launcher cannot get the version \nStatus code: {latest_config.status_code}")
 

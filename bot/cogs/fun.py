@@ -5,6 +5,8 @@ from main import (Colors, err_embed)
 
 import random
 
+import craiyon
+
 import requests
 
 
@@ -122,6 +124,25 @@ class Fun(commands.Cog):
 
                 await ctx.send(text)
                 
+            except Exception as e:
+                await err_embed(ctx, e)
+
+
+        # Command to generate images
+        @bot.slash_command(name="imagine", description="Generate image with Craiyon", options=[
+            discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
+        async def imagine(self, ctx, prompt: str):
+            try:
+                generator = craiyon.Craiyon()
+
+                embed = discord.Embed(title="Generating...", color=Colors.standard)
+                await ctx.send(embed=embed)
+
+                generated = await generator.async_generate(prompt)
+
+                embed = discord.Embed(title=f"``{prompt}``", color=Colors.standard)
+                embed.set_image(url=choice(generated.images))
+
             except Exception as e:
                 await err_embed(ctx, e)
                 

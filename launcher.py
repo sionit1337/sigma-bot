@@ -3,7 +3,10 @@ import os
 import re
 import requests
 
-with open("src/not-scripts/config.json", "r") as file:
+
+cfg_path = "./bot/not-scripts/config.json"
+
+with open(cfg_path, "r") as file:
     config = load(file)
 
 
@@ -15,14 +18,14 @@ class Launcher:
     def check_config(self):
         print("Checking config for token...")
 
-        pattern = re.compile("([-a-zA-Z0-9_].[-a-zA-Z0-9_].[-a-zA-Z0-9_])")
+        pattern = re.compile("[-a-zA-Z0-9_].[-a-zA-Z0-9_].[-a-zA-Z0-9_]")
         match = re.search(pattern, config["Token"])
         if not match:
             print("You didn't inserted bot token")
 
             config["Token"] = input("Insert here: ")
         
-            with open("src/not-scripts/config.json", "w") as file:
+            with open(cfg_path, "w") as file:
                 file.write(f"{config}".replace("'", "\""))
 
             self.download_python_libs()

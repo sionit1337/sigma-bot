@@ -1,6 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 from json import load
+import os
 
 
 # Universal colors
@@ -14,7 +15,9 @@ async def err_embed(ctx, e):
     await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"{e}", color=Colors.error), ephemeral=True)
 
 
-with open("not-scripts/config.json", "r") as file:
+cfg_path = "./not-scripts/config.json"
+
+with open(cfg_path, "r") as file:
     config = load(file)
 
 intents = discord.Intents.all()

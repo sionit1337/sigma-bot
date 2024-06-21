@@ -1,6 +1,4 @@
 craiyon.py>=1.2.0
 disnake>=2.9.1
-numpy>=2.10.0
-openai>=1.35.0
 psutil>=5.9.8
 requests>=2.32.3

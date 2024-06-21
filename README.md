@@ -14,8 +14,12 @@ Major dependencies:
 
 - [ ] Music cog (not likely)
 
-- [x] Math command
-
 - [ ] Warn system (more likely than the music cog)
 
 - [ ] Update downloader in launcher
+
+- [ ] Base64 (en/de)coder 
+
+- [ ] Morse code (en/de)coder
+
+- [ ] Destroyer of images (in quality)

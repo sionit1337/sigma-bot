@@ -48,7 +48,7 @@ class Mod(commands.Cog):
             discord.Option(name="time", type=discord.OptionType.integer, description="Time for mute in seconds (e.g. typed \"3600\" - mutes for 1 hour)", required=False),
             discord.Option(name="reason", type=discord.OptionType.string, description="Reason for mute", required=False)])
         async def mute(self, ctx, target: discord.Member, time: int = 60, reason: str = None):
-            if not ctx.author.guild_permissions.mute_members:
+            if not ctx.author.guild_permissions.moderate_members:
                 await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
 

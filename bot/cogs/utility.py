@@ -2,11 +2,11 @@ import disnake as discord
 from disnake.ext import commands
 
 from main import (Colors, err_embed)
+from json import load
 
 from psutil import cpu_percent, virtual_memory
 
-import ast
-import math
+from numexpr import evaluate
 
 
 class Utility(commands.Cog):
@@ -47,6 +47,15 @@ class Utility(commands.Cog):
                     member = ctx.author
 
                 role_names = [role.name for role in member.roles[1:]]
+                status_name = {
+                    "online": "Online",
+                    "dnd": "Don't Disturb",
+                    "do_not_disturb": "Don't Disturb",
+                    "idle": "Idling",
+                    "offline": "Offline",
+                    "invisible": "Unknown (invisible)",
+                    "streaming": "Streaming something"
+                }
 
                 embed = discord.Embed(title=f"{member.display_name}", color=Colors.standard)
                 embed.set_thumbnail(member.avatar.url)
@@ -54,7 +63,7 @@ class Utility(commands.Cog):
                 embed.add_field(name="Name identifier", value=f"``{member.name}`` ({member.mention})")
                 embed.add_field(name="ID", value=f"``{member.id}``")
 
-                embed.add_field(name="Status", value=f"``{member.status}``")
+                embed.add_field(name="Status", value=f"``{status_name[str(member.status)]}``")
                 embed.add_field(name="Text in custom status", value=f"``{member.activity.name if member.activity else 'Empty'}``")
 
                 embed.add_field(name="Joined Discord", value=f"<t:{round(member.created_at.timestamp())}:R>")
@@ -74,8 +83,8 @@ class Utility(commands.Cog):
         async def about(self, ctx):
             try:
                 client = bot.user
-                with open("../../current-version") as file:
-                    version = file.read()
+                with open("bot/not-scripts/config.json") as file:
+                    version = load(file)["Version"]
 
                 embed = discord.Embed(title=f"{client.display_name}", description="Just a bot with standard features", color=Colors.standard)
 
@@ -109,7 +118,7 @@ class Utility(commands.Cog):
 
                 embed.add_field(name="Ping", value=f"``{ping}ms``")
                 embed.add_field(name="CPU", value=f"``{cpu}%``")
-                embed.add_field(name="RAM", value=f"``{ram_percent}``% (``{ram_used}``/``{ram_total}`` Mb)")
+                embed.add_field(name="RAM", value=f"``{ram_percent}%`` (``{ram_used}Mb/{ram_total}Mb``)")
 
                 await ctx.send(embed=embed)
 
@@ -123,30 +132,22 @@ class Utility(commands.Cog):
         async def math(self, ctx, expr: str):
             try:
                 def solve(expr: str):
-                    parsed_expression = ast.parse(expr, mode="eval")
-
-                    allowed_names = {
-                    'sin': math.sin,
-                    'cos': math.cos,
-                    'tan': math.tan,
-                    'log': math.log,
-                    'sqrt': math.sqrt,
-                    **vars(math)
-                    }
-
-                    solved = eval(compile(parsed_expression, filename="", mode="eval"), {}, allowed_names)
-
-                    return solved
+                    try:
+                        solved = evaluate(expr)
+                        return solved
+                    
+                    except Exception:
+                        return "Expression couldn't be solved"
 
 
-                embed = discord.Embed(title="Math expression", description=f"# ``{solve(expr)}``", color=Colors.standard)
+                embed = discord.Embed(description=f"# ``{solve(expr)}``", color=Colors.standard)
 
                 embed.add_field(name="Expression", value=f"``{expr}``")
 
                 await ctx.send(embed=embed)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
+                await err_embed(ctx, e)
 
 
 def setup(bot: commands.Bot):

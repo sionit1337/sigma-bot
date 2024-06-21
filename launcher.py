@@ -33,7 +33,7 @@ class Launcher:
             print("Now restart the launcher")
 
         else:
-            print("Starting now...")
+            print("All right")
             self.start_bot()
 
 
@@ -73,7 +73,9 @@ class Launcher:
 
 
     def start_bot(self):
-        os.system(f"python {os.path.abspath("src/main.py")}")
+        print("Starting now...")
+
+        os.system(f"python {os.path.abspath("bot/main.py")}")
 
 
     def start_launcher(self):

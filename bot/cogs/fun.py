@@ -102,7 +102,7 @@ class Fun(commands.Cog):
             try:
                 randvalue = random.randint(min, max)
 
-                embed = discord.Embed(title="Random value", description=f"# ``{randvalue}``", color=Colors.standard)
+                embed = discord.Embed(description=f"# ``{randvalue}``", color=Colors.standard)
 
                 embed.add_field(name="Min value", value=f"``{min}``")
                 embed.add_field(name="Max value", value=f"``{max}``")
@@ -114,35 +114,14 @@ class Fun(commands.Cog):
                 
 
         # Echo
-        @bot.slash_command(name="echo", description="Send message from bot's name", options=[discord.Option(name="text", type=discord.OptionType.integer, description="Text for sending", required=True)])
+        @bot.slash_command(name="echo", description="Send message from bot's name", options=[discord.Option(name="text", type=discord.OptionType.string, description="Text for sending", required=True)])
         async def echo(self, ctx, text: str):
             try:
-                await ctx.send(embed=discord.Embed(title="Dummy message :P", color=Colors.standard), ephemeral=True)
+                text = text.replace("@everyone", "[everyone]")
+                text = text.replace("@here", "[here]")
 
-                text = text.replace("<@everyone>", "[everyone]")
-                text = text.replace("<@here>", "[here]")
-
-                await ctx.send(text)
+                await ctx.channel.send(text)
                 
-            except Exception as e:
-                await err_embed(ctx, e)
-
-
-        # Command to generate images
-        @bot.slash_command(name="imagine", description="Generate image with Craiyon", options=[
-            discord.Option(name="prompt", type=discord.OptionType.string, description="Your prompt", required=True)])
-        async def imagine(self, ctx, prompt: str):
-            try:
-                generator = craiyon.Craiyon()
-
-                embed = discord.Embed(title="Generating...", color=Colors.standard)
-                await ctx.send(embed=embed)
-
-                generated = await generator.async_generate(prompt)
-
-                embed = discord.Embed(title=f"``{prompt}``", color=Colors.standard)
-                embed.set_image(url=choice(generated.images))
-
             except Exception as e:
                 await err_embed(ctx, e)
                 

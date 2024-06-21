@@ -5,6 +5,7 @@ from main import (Colors, err_embed)
 
 import datetime
 
+
 class Mod(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -22,8 +23,8 @@ class Mod(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="You can't kick another moderator!", color=Colors.error), ephemeral=True)
                 return
 
-            if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't kick yourself!", color=Colors.error), ephemeral=True)
+            if target == ctx.author or target == bot.user:
+                await ctx.send(embed=discord.Embed(title="You can't kick yourself or bot!", color=Colors.error), ephemeral=True)
                 return
 
             try:
@@ -37,6 +38,8 @@ class Mod(commands.Cog):
                 embed.add_field(name="Reason", value=f"``{reason if reason else 'Reason wasn\'t specified'}``")
 
                 await ctx.send(embed=embed)
+
+                await ctx.delete_original_response(delay=10)
 
             except Exception as e:
                 await err_embed(ctx, e)
@@ -56,8 +59,8 @@ class Mod(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="You can't mute another moderator!", color=Colors.error), ephemeral=True)
                 return
 
-            if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't mute yourself!", color=Colors.error), ephemeral=True)
+            if target == ctx.author or target == bot.user:
+                await ctx.send(embed=discord.Embed(title="You can't mute yourself or bot!", color=Colors.error), ephemeral=True)
                 return
 
             try:
@@ -70,12 +73,14 @@ class Mod(commands.Cog):
                 embed = discord.Embed(title="Muted", color=Colors.standard)
 
                 embed.add_field(name="Moderator", value=f"``{ctx.author.display_name}``")
-                embed.add_field(name="Target", value=f"``{target.display_name}``")
+                embed.add_field(name="Target", value=f"``{target.display_name}`` ({target.mention})")
 
-                embed.add_field(name="Time", value=f"``{time}`` second(s)")
+                embed.add_field(name="Time", value=f"``{time}secs``")
                 embed.add_field(name="Reason", value=f"``{reason if reason else 'Reason wasn\'t specified'}``")
 
                 await ctx.send(embed=embed)
+
+                await ctx.delete_original_response(delay=10)
 
             except Exception as e:
                 await err_embed(ctx, e)
@@ -94,8 +99,8 @@ class Mod(commands.Cog):
                 await ctx.send(embed=discord.Embed(title="You can't ban another moderator!", color=Colors.error), ephemeral=True)
                 return
 
-            if target == ctx.author:
-                await ctx.send(embed=discord.Embed(title="You can't ban yourself!", color=Colors.error), ephemeral=True)
+            if target == ctx.author or target == bot.user:
+                await ctx.send(embed=discord.Embed(title="You can't ban yourself or bot!", color=Colors.error), ephemeral=True)
                 return
 
             try:
@@ -110,34 +115,31 @@ class Mod(commands.Cog):
 
                 await ctx.send(embed=embed)
 
+                await ctx.delete_original_response(delay=10)
+
             except Exception as e:
                 await err_embed(ctx, e)
 
 
         @bot.slash_command(name="clear", description="Cleans chat from selected number of messages", options=[
-            discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True),
-            discord.Option(name="target", type=discord.OptionType.user, description="Target user (only their messages will be deleted if specified)", required=False)])
-        async def ban(self, ctx, amount: int, target: discord.Member=None):
+            discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True)])
+        async def clear(self, ctx, amount: int):
             if not ctx.author.guild_permissions.manage_messages:
                 await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
                 return
 
             try:
-                def check(msg):
-                    if target:
-                        return msg.author == target
-                    return None
-
-                await ctx.channel.purge(limit=amount, check=check)
+                await ctx.channel.purge(limit=amount)
 
                 embed = discord.Embed(title="Cleared messages", color=Colors.standard)
 
                 embed.add_field(name="Moderator", value=f"``{ctx.author.display_name}``")
 
-                embed.add_field(name="Amount", value=f"``{amount}`` messages")
-                embed.add_field(name="Target", value=f"``{target.display_name if target else 'Not specified'}``")
+                embed.add_field(name="Amount", value=f"``{amount}msgs``")
 
                 await ctx.send(embed=embed)
+
+                await ctx.delete_original_response(delay=10)
 
             except Exception as e:
                 await err_embed(ctx, e)

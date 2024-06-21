@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import Colors
+from main import (Colors, err_embed)
 
 from psutil import cpu_percent, virtual_memory
 
@@ -19,7 +19,7 @@ class Utility(commands.Cog):
             try:
                 server = ctx.guild
 
-                embed = discord.Embed(title=f"``{server.name}``", color=Colors.standard)
+                embed = discord.Embed(title=f"{server.name}", color=Colors.standard)
 
                 embed.set_thumbnail(url=server.icon.url)
 
@@ -35,7 +35,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         # User info command
@@ -48,10 +48,10 @@ class Utility(commands.Cog):
 
                 role_names = [role.name for role in member.roles[1:]]
 
-                embed = discord.Embed(title=f"``{member.display_name}``", color=Colors.standard)
+                embed = discord.Embed(title=f"{member.display_name}", color=Colors.standard)
                 embed.set_thumbnail(member.avatar.url)
 
-                embed.add_field(name="Nickname", value=f"``{member.name}`` ({member.mention})")
+                embed.add_field(name="Name identifier", value=f"``{member.name}`` ({member.mention})")
                 embed.add_field(name="ID", value=f"``{member.id}``")
 
                 embed.add_field(name="Status", value=f"``{member.status}``")
@@ -66,7 +66,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         # Bot info command
@@ -77,7 +77,7 @@ class Utility(commands.Cog):
                 with open("../../current-version") as file:
                     version = file.read()
 
-                embed = discord.Embed(title=f"``{client.display_name}``", description="Just a bot with standard features", color=Colors.standard)
+                embed = discord.Embed(title=f"{client.display_name}", description="Just a bot with standard features", color=Colors.standard)
 
                 embed.set_thumbnail(url=client.avatar.url)
 
@@ -89,7 +89,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         # Host info command
@@ -114,7 +114,7 @@ class Utility(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         # Math

@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import Colors
+from main import (Colors, err_embed)
 
 import datetime
 
@@ -39,7 +39,7 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         # Mute command
@@ -78,7 +78,7 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         # Ban command
@@ -111,7 +111,7 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         @bot.slash_command(name="clear", description="Cleans chat from selected number of messages", options=[
@@ -140,7 +140,7 @@ class Mod(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
 def setup(bot: commands.Bot):

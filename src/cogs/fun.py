@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import Colors
+from main import (Colors, err_embed)
 
 import random
 
@@ -37,7 +37,7 @@ class Fun(commands.Cog):
                 await ctx.send(embed=embed)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
+                await err_embed(ctx, e)
 
 
         # Oracle (not Java vendor)
@@ -58,7 +58,7 @@ class Fun(commands.Cog):
                 await ctx.send(embed=embed)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
+                await err_embed(ctx, e)
                 
 
         # Famous game of rock, paper and scissors
@@ -91,7 +91,7 @@ class Fun(commands.Cog):
                 embed.add_field(name=f"Result", value=f"``{result}``")
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
+                await err_embed(ctx, e)
                 
 
         # Random value
@@ -108,7 +108,7 @@ class Fun(commands.Cog):
                 await ctx.send(embed=embed)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
+                await err_embed(ctx, e)
                 
 
         # Echo
@@ -123,7 +123,7 @@ class Fun(commands.Cog):
                 await ctx.send(text)
                 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.standard), ephemeral=True)
+                await err_embed(ctx, e)
                 
 
 def setup(bot: commands.Bot):

@@ -10,6 +10,10 @@ class Colors:
     todo = 0x5500ff
 
 
+async def err_embed(ctx, e):
+    await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"{e}", color=Colors.error), ephemeral=True)
+
+
 with open("not-scripts/config.json", "r") as file:
     config = load(file)
 

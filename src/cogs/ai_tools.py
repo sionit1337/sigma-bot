@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import Colors
+from main import (Colors, err_embed)
 
 import openai
 from json import load
@@ -55,7 +55,7 @@ class AITools(commands.Cog):
                         await ctx.edit_original_response(embed=discord.Embed(title=f"Response's text was longer than Discord limits ({len(response)}/2000), so I send it as a file", color=Colors.standard), file=file)
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
                 
 
         # Command to generate images
@@ -74,7 +74,7 @@ class AITools(commands.Cog):
                 embed.set_image(url=choice(generated.images))
 
             except Exception as e:
-                await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, e)
 
 
 def setup(bot: commands.Bot):

@@ -57,26 +57,26 @@ class Launcher:
 
         if local_version != latest_version:
             print(f"New update: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
-            self.download_python_libs()
+            # self.download_python_libs()
 
         else:
             print("No updates found")
 
 
-    def download_python_libs(self):
-        print("Would you like for launcher to install necessary Python libraries?")
-        with open("requirements.txt", "r") as file:
-            print(file.read())
+    # def download_python_libs(self):
+    #     print("Would you like for launcher to install necessary Python libraries?")
+    #     with open("requirements.txt", "r") as file:
+    #         print(file.read())
 
-        choice = input("[Y]es, [N]o: ")
+    #     choice = input("[Y]es, [N]o: ")
 
-        match choice.lower():
-            case "y":
-                print("Trying to download...")
-                os.system(f"pip install -r {os.path.abspath("requirements.txt")} -U")
+    #     match choice.lower():
+    #         case "y":
+    #             print("Trying to download...")
+    #             os.system(f"pip install -r {os.path.abspath("requirements.txt")} -U")
 
-            case "n":
-                print("Skipping...")
+    #         case "n":
+    #             print("Skipping...")
 
 
     def start_bot(self):

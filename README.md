@@ -18,7 +18,7 @@ Major dependencies:
 
 - [ ] Update downloader in launcher
 
-- [ ] Base64 (en/de)coder 
+- [x] Base64 (en/de)coder
 
 - [ ] Morse code (en/de)coder
 

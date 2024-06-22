@@ -3,6 +3,15 @@ import os
 import re
 import requests
 
+import logging
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler(filename="logs/launcher.log", encoding="utf-8", mode="w")
+handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s"))
+logger.addHandler(handler)
+
 
 cfg_path = "./bot/not-scripts/config.json"
 
@@ -20,6 +29,7 @@ class Launcher:
 
         pattern = re.compile("[-a-zA-Z0-9_].[-a-zA-Z0-9_].[-a-zA-Z0-9_]")
         match = re.search(pattern, config["Token"])
+
         if not match:
             print("You didn't inserted bot token")
 

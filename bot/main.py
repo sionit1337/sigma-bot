@@ -2,6 +2,15 @@ import disnake as discord
 from disnake.ext import commands
 from json import load
 
+import logging
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+handler = logging.FileHandler(filename="logs/bot.log", encoding="utf-8", mode="w")
+handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s"))
+logger.addHandler(handler)
+
 
 # Universal colors
 class Colors:

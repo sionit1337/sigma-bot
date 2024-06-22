@@ -66,12 +66,12 @@ class Utility(commands.Cog):
                 embed.add_field(name="ID", value=f"``{member.id}``")
 
                 embed.add_field(name="Status", value=f"``{status_name[str(member.status)]}``")
-                embed.add_field(name="Text in custom status", value=f"``{member.activity.name if member.activity else 'Empty'}``")
 
                 embed.add_field(name="Joined Discord", value=f"<t:{round(member.created_at.timestamp())}:R>")
                 embed.add_field(name="Joined this server", value=f"<t:{round(member.joined_at.timestamp())}:R>")
 
                 embed.add_field(name="Is bot", value=f"``{'Yes' if member.bot else 'No'}``")
+                
                 embed.add_field(name="Roles", value=f"``{len(role_names) if role_names else 'No roles'}`` (``{'``, ``'.join(role_names) if role_names else '@everyone'}``)")
 
                 await ctx.send(embed=embed)

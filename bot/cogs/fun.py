@@ -5,8 +5,6 @@ from main import (Colors, err_embed)
 
 import random
 
-import craiyon
-
 import requests
 
 

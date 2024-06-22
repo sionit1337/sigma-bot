@@ -37,8 +37,6 @@ class Launcher:
             with open(cfg_path, "w") as file:
                 file.write(f"{config}".replace("'", "\""))
 
-            self.download_python_libs()
-            
             print("You should restart the launcher now")
 
         else:
@@ -59,6 +57,7 @@ class Launcher:
 
         if local_version != latest_version:
             print(f"New update: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
+            self.download_python_libs()
 
         else:
             print("No updates found")

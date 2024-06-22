@@ -29,7 +29,6 @@ class Launcher:
 
         pattern = re.compile("[-a-zA-Z0-9_].[-a-zA-Z0-9_].[-a-zA-Z0-9_]")
         match = re.search(pattern, config["Token"])
-
         if not match:
             print("You didn't inserted bot token")
 
@@ -40,10 +39,10 @@ class Launcher:
 
             self.download_python_libs()
             
-            print("Now restart the launcher")
+            print("You should restart the launcher now")
 
         else:
-            print("All right")
+            print("Starting bot...")
             self.start_bot()
 
 

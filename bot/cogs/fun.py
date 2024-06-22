@@ -15,7 +15,8 @@ class Fun(commands.Cog):
         self.bot = bot
 
         # Command that sends {endpoint}
-        @bot.slash_command(name="send_animal", description="Sends animal on your choice in chat", options=[discord.Option(name="animal", type=discord.OptionType.string, description="Your animal", required=True, choices=[
+        @bot.slash_command(name="send_animal", description="Sends animal on your choice in chat", options=[
+            discord.Option(name="animal", type=discord.OptionType.string, description="Your animal", required=True, choices=[
             discord.OptionChoice(name="Dog", value="dog"),
             discord.OptionChoice(name="Cat", value="cat"),
             discord.OptionChoice(name="Fox", value="fox")])])
@@ -64,7 +65,8 @@ class Fun(commands.Cog):
                 
 
         # Famous game of rock, paper and scissors
-        @bot.slash_command(name="rock_paper_scissors", description="Famous game of rock, paper and scissors", options=[discord.Option(name="choice", type=discord.OptionType.string, description="Your choice", required=True, choices=[
+        @bot.slash_command(name="rock_paper_scissors", description="Famous game of rock, paper and scissors", options=[
+            discord.Option(name="choice", type=discord.OptionType.string, description="Your choice", required=True, choices=[
             discord.OptionChoice(name="Rock", value="rock"),
             discord.OptionChoice(name="Paper", value="paper"),
             discord.OptionChoice(name="Scissors", value="scissors")])])
@@ -97,7 +99,9 @@ class Fun(commands.Cog):
                 
 
         # Random value
-        @bot.slash_command(name="rand", description="Generate random number", options=[discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
+        @bot.slash_command(name="rand", description="Generate random number", options=[
+            discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), 
+            discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
         async def rand(self, ctx, min: int, max: int):
             try:
                 randvalue = random.randint(min, max)
@@ -114,7 +118,8 @@ class Fun(commands.Cog):
                 
 
         # Echo
-        @bot.slash_command(name="echo", description="Send message from bot's name", options=[discord.Option(name="text", type=discord.OptionType.string, description="Text for sending", required=True)])
+        @bot.slash_command(name="echo", description="Send message from bot's name", options=[
+            discord.Option(name="text", type=discord.OptionType.string, description="Text for sending", required=True)])
         async def echo(self, ctx, text: str):
             try:
                 text = text.replace("@everyone", "[everyone]")

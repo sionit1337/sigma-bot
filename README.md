@@ -6,9 +6,9 @@ Just a code for my bot
 
 Just start the launcher and follow instructions
 
-Major dependencies:
+### Major dependencies:
 
-- Python (3.x)
+- Python (3.x) with pip
 
 # TODO
 

@@ -42,7 +42,6 @@ class Launcher:
             print("You should restart the launcher now")
 
         else:
-            print("Starting bot...")
             self.start_bot()
 
 
@@ -82,8 +81,7 @@ class Launcher:
 
 
     def start_bot(self):
-        print("Starting now...")
-
+        print("Starting bot...")
         os.system(f"python {os.path.abspath("bot/main.py")}")
 
 

@@ -23,3 +23,5 @@ Just start the launcher and follow instructions
 - [ ] Morse code (en/de)coder
 
 - [ ] Destroyer of images (in quality)
+
+- [ ] ✨IMPROVE✨

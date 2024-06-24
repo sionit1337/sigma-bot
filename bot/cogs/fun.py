@@ -5,7 +5,7 @@ from main import (Colors, err_embed, logger)
 
 import random
 
-import requests
+from aiohttp import ClientSession
 
 
 class Fun(commands.Cog):
@@ -21,22 +21,22 @@ class Fun(commands.Cog):
             discord.OptionChoice(name="Fox", value="fox")])])
         async def send_animal(self, ctx, animal: str):
             try:
-                response = requests.get(f"https://some-random-api.com/animal/{animal}")
-                data = response.json()
+                async with ClientSession as session:
+                    async with session.get("https://some-random-api.com/animal/cat") as resp:
+                        if resp.status == 200:
+                            data = await resp.text()
 
-                if response.status_code == 200:
-                    image = data["image"]
-                    fact = data["fact"]
+                            image = data["image"]
+                            fact = data["fact"]
 
-                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
-                    embed.set_image(url=image)
+                            embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
+                            embed.set_image(url=image)
 
-                elif response.status_code >= 400:
-                    err = data["err"]
+                            await ctx.send(embed=embed)
+                
+                        else:
+                            await err_embed(ctx, f"``Response code: {resp.status}``")
 
-                    embed = discord.Embed(title=f"Something went wrong", description=f"``{response.status_code}`` | ``{err}``", color=Colors.standard)
-
-                await ctx.send(embed=embed)
                 
             except Exception as e:
                 await err_embed(ctx, e)

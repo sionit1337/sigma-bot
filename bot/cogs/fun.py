@@ -128,22 +128,5 @@ class Fun(commands.Cog):
                 self.logger.info(f"{ctx.author}: /rand")
                 
 
-        # Echo
-        @bot.slash_command(name="echo", description="Send message from bot's name", options=[
-            discord.Option(name="text", type=discord.OptionType.string, description="Text for sending", required=True)])
-        async def echo(self, ctx, text: str):
-            try:
-                text = text.replace("@everyone", "[everyone]")
-                text = text.replace("@here", "[here]")
-
-                await ctx.channel.send(text)
-                
-            except Exception as e:
-                await err_embed(ctx, e)
-
-            finally:
-                self.logger.info(f"{ctx.author}: /echo")
-                
-
 def setup(bot: commands.Bot):
     bot.add_cog(Fun(bot))

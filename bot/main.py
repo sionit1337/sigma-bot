@@ -2,14 +2,24 @@ import disnake as discord
 from disnake.ext import commands
 from json import load
 
+from random import choice
+
 import logging
 
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-handler = logging.FileHandler(filename="logs/bot.log", encoding="utf-8", mode="w")
-handler.setFormatter(logging.Formatter("%(asctime)s:%(levelname)s:%(name)s: %(message)s"))
-logger.addHandler(handler)
+
+formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
+
+file_handler = logging.FileHandler(filename="../logs/launcher.log", encoding="utf-8", mode="w")
+file_handler.setFormatter(formatter)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
 
 
 # Universal colors
@@ -21,6 +31,7 @@ class Colors:
 
 async def err_embed(ctx, e):
     await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"{e}", color=Colors.error), ephemeral=True)
+    logger.error(e)
 
 
 cfg_path = "bot/not-scripts/config.json"
@@ -45,7 +56,7 @@ if __name__ == "__main__":
 
     @bot.event
     async def on_ready():
-        print(f"{bot.user.display_name} is ready to work")
+        logger.info(f"Logged in as {bot.user.display_name}")
 
     bot.setup_interactions()
     bot.run(config["Token"])

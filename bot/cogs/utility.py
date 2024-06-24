@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed)
+from main import (Colors, err_embed, logger)
 from json import load
 
 from psutil import cpu_percent, virtual_memory
@@ -14,6 +14,7 @@ from base64 import (b64decode, b64encode)
 class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.logger = logger
 
         # Server info command
         @bot.slash_command(name="server_info", description="Main info about current server")
@@ -38,6 +39,9 @@ class Utility(commands.Cog):
 
             except Exception as e:
                 await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /server_info")
 
 
         # User info command
@@ -79,6 +83,9 @@ class Utility(commands.Cog):
             except Exception as e:
                 await err_embed(ctx, e)
 
+            finally:
+                self.logger.info(f"{ctx.author}: /user_info")
+
 
         # Bot info command
         @bot.slash_command(name="about", description="Main info about Sigma Bot")
@@ -101,6 +108,9 @@ class Utility(commands.Cog):
 
             except Exception as e:
                 await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /about")
 
 
         # Host info command
@@ -127,6 +137,9 @@ class Utility(commands.Cog):
             except Exception as e:
                 await err_embed(ctx, e)
 
+            finally:
+                self.logger.info(f"{ctx.author}: /host")
+
 
         # Math
         @bot.slash_command(name="math", description="Solve math expression", options=[
@@ -150,6 +163,9 @@ class Utility(commands.Cog):
                 
             except Exception as e:
                 await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /math")
 
 
         # Base64
@@ -178,6 +194,9 @@ class Utility(commands.Cog):
                 
             except Exception as e:
                 await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /b64")
 
 
 def setup(bot: commands.Bot):

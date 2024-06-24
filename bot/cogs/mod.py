@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed)
+from main import (Colors, err_embed, logger)
 
 import datetime
 
@@ -9,6 +9,7 @@ import datetime
 class Mod(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+        self.logger = logger
 
         # Kick command
         @bot.slash_command(name="kick", description="Kicks selected user from server", options=[
@@ -43,6 +44,9 @@ class Mod(commands.Cog):
 
             except Exception as e:
                 await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /kick")
 
 
         # Mute command
@@ -85,6 +89,9 @@ class Mod(commands.Cog):
             except Exception as e:
                 await err_embed(ctx, e)
 
+            finally:
+                self.logger.info(f"{ctx.author}: /mute")
+
 
         # Ban command
         @bot.slash_command(name="ban", description="Kicks user AND disallows him to return", options=[
@@ -120,6 +127,9 @@ class Mod(commands.Cog):
             except Exception as e:
                 await err_embed(ctx, e)
 
+            finally:
+                self.logger.info(f"{ctx.author}: /ban")
+
 
         @bot.slash_command(name="clear", description="Cleans chat from selected number of messages", options=[
             discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True)])
@@ -143,6 +153,9 @@ class Mod(commands.Cog):
 
             except Exception as e:
                 await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /clear")
 
 
 def setup(bot: commands.Bot):

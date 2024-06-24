@@ -18,8 +18,6 @@ Just start the launcher and follow instructions
 
 - [ ] Update downloader in launcher
 
-- [x] Base64 (en/de)coder
-
 - [ ] Morse code (en/de)coder
 
 - [ ] Destroyer of images (in quality)

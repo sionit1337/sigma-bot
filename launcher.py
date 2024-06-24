@@ -11,7 +11,7 @@ logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
 
-file_handler = logging.FileHandler(filename="logs/launcher.log", encoding="utf-8", mode="w")
+file_handler = logging.FileHandler(filename=f"{os.path.realpath(os.path.dirname(__file__))}/bot/logs/launcher.log", encoding="utf-8", mode="w")
 file_handler.setFormatter(formatter)
 
 console_handler = logging.StreamHandler()
@@ -20,7 +20,7 @@ console_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
-cfg_path = "./bot/not-scripts/config.json"
+cfg_path = f"{os.path.realpath(os.path.dirname(__file__))}/bot/not-scripts/config.json"
 
 with open(cfg_path, "r") as file:
     config = load(file)

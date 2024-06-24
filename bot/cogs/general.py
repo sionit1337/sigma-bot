@@ -84,5 +84,23 @@ class General(commands.Cog):
                 self.logger.info(f"{ctx.author}: /echo")
 
 
+        # Eval
+        @bot.slash_command(name="eval", description="RESTRICTED ACCESS", options=[
+            discord.Option(name="code", type=discord.OptionType.string, description="Code you want to evaluate", required=True)])
+        @bot.is_owner
+        async def evalvlvl(self, ctx, text: str):
+            try:
+                text = text.replace("@everyone", "[everyone]")
+                text = text.replace("@here", "[here]")
+
+                await ctx.channel.send(text)
+                
+            except Exception as e:
+                await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /eval")
+
+
 def setup(bot: commands.Bot):
     bot.add_cog(General(bot))

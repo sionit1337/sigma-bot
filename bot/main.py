@@ -45,6 +45,8 @@ intents = discord.Intents.all()
 
 class Bot(commands.InteractionBot):
     def __init__(self):
+        self.config = config
+        self.logger = logger
         super().__init__(intents=intents)
 
 
@@ -59,7 +61,6 @@ class Bot(commands.InteractionBot):
 
                 except Exception as e:
                     self.logger.error(e)
-
 
 
 if __name__ == "__main__":

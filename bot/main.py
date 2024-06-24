@@ -47,11 +47,18 @@ class Bot(commands.InteractionBot):
     def __init__(self):
         super().__init__(intents=intents)
 
+
     def setup_cogs(self):
-        self.load_extension("cogs.mod")
-        self.load_extension("cogs.utility")
-        self.load_extension("cogs.fun")
-        self.load_extension("cogs.general")
+        for file in os.listdir(f"{os.path.realpath(os.path.dirname(__file__))}/cogs"):
+            if file.endswith(".py"):
+                cog = file[:-3] # Looks like :3 lol
+
+                try:
+                    self.load_extension(f"cogs.{cog}")
+                    self.logger.info(f"Successfully loaded cog \"{cog}\"")
+
+                except Exception as e:
+                    self.logger.error(e)
 
 
 
@@ -61,6 +68,7 @@ if __name__ == "__main__":
     @bot.event
     async def on_ready():
         logger.info(f"Logged in as {bot.user.display_name}")
+        bot.setup_cogs()
         
         motds = ["Visual Studio Code", "with the /echo", "no /help command, sorry"]
         motd = discord.Game(choice(motds))

@@ -45,6 +45,31 @@ class Fun(commands.Cog):
                 self.logger.info(f"{ctx.author}: /send_animal")
 
 
+        # Command that sends inspirational (or not) quote
+        @bot.slash_command(name="inspire", description="Sends inspirational (or not) quote")
+        async def inspire(self, ctx):
+            try:
+                async with ClientSession as session:
+                    async with session.get("https://inspirobot.me/api?generate=true") as resp:
+                        if resp.status == 200:
+                            image = await resp.text()
+
+                            embed = discord.Embed(title=f"Here's your quote!", color=Colors.standard)
+                            embed.set_image(url=image)
+
+                            await ctx.send(embed=embed)
+                
+                        else:
+                            await err_embed(ctx, f"``Response code: {resp.status}``")
+
+                
+            except Exception as e:
+                await err_embed(ctx, e)
+
+            finally:
+                self.logger.info(f"{ctx.author}: /inspire")
+
+
         # Oracle (not Java vendor)
         @bot.slash_command(name="ball8", description="Asks oracle and answers your questions", options=[
             discord.Option(name="question", type=discord.OptionType.string, description="Your question", required=True)])

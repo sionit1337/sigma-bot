@@ -18,8 +18,6 @@ Just start the launcher and follow instructions
 
 - [ ] Update downloader in launcher
 
-- [ ] Morse code (en/de)coder
-
 - [ ] Destroyer of images (in quality)
 
 - [ ] ✨IMPROVE✨

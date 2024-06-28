@@ -22,9 +22,9 @@ class Fun(commands.Cog):
         async def send_animal(self, ctx, animal: str):
             try:
                 async with ClientSession as session:
-                    async with session.get("https://some-random-api.com/animal/cat") as resp:
+                    async with session.get(f"https://some-random-api.com/animal/{animal}") as resp:
                         if resp.status == 200:
-                            data = await resp.text()
+                            data = await resp.json()
 
                             image = data["image"]
                             fact = data["fact"]

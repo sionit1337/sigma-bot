@@ -30,6 +30,7 @@ class Fun(commands.Cog):
                             fact = data["fact"]
 
                             embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
+                            embed.set_footer("Special thanks: https://some-random-api.com")
                             embed.set_image(url=image)
 
                             await ctx.send(embed=embed)
@@ -55,6 +56,7 @@ class Fun(commands.Cog):
                             image = await resp.text()
 
                             embed = discord.Embed(title=f"Here's your quote!", color=Colors.standard)
+                            embed.set_footer("Special thanks: https://inspirobot.me")
                             embed.set_image(url=image)
 
                             await ctx.send(embed=embed)

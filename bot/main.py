@@ -32,7 +32,7 @@ class Colors:
 
 
 async def err_embed(ctx, e):
-    await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"{e}", color=Colors.error), ephemeral=True)
+    await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), ephemeral=True)
     logger.error(e)
 
 

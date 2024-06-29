@@ -5,7 +5,7 @@ from main import (Colors, err_embed)
 
 import random
 
-from aiohttp import ClientSession
+from requests import get
 
 
 class Fun(commands.Cog):
@@ -20,22 +20,21 @@ class Fun(commands.Cog):
             discord.OptionChoice(name="Fox", value="fox")])])
         async def send_animal(self, ctx, animal: str):
             try:
-                async with ClientSession as session:
-                    async with session.get(f"https://some-random-api.com/animal/{animal}") as resp:
-                        if resp.status == 200:
-                            data = await resp.json()
+                resp = get(f"https://some-random-api.com/animal/{animal}")
+                if resp.status_code == 200:
+                    data = await resp.json()
 
-                            image = data["image"]
-                            fact = data["fact"]
+                    image = data["image"]
+                    fact = data["fact"]
 
-                            embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
-                            embed.set_footer("Special thanks: https://some-random-api.com")
-                            embed.set_image(url=image)
+                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
+                    embed.set_footer("Special thanks: https://some-random-api.com")
+                    embed.set_image(url=image)
 
-                            await ctx.send(embed=embed)
+                    await ctx.send(embed=embed)
                 
-                        else:
-                            await err_embed(ctx, f"``Response code: {resp.status}``")
+                else:
+                    await err_embed(ctx, f"Response code: {resp.status_code}")
 
                 
             except Exception as e:
@@ -46,19 +45,18 @@ class Fun(commands.Cog):
         @bot.slash_command(name="inspire", description="Sends inspirational (or not) quote")
         async def inspire(self, ctx):
             try:
-                async with ClientSession as session:
-                    async with session.get("https://inspirobot.me/api?generate=true") as resp:
-                        if resp.status == 200:
-                            image = await resp.text()
+                resp = get("https://inspirobot.me/api?generate=true")
+                if resp.status_code == 200:
+                    image = resp.text()
 
-                            embed = discord.Embed(title=f"Here's your quote!", color=Colors.standard)
-                            embed.set_footer("Special thanks: https://inspirobot.me")
-                            embed.set_image(url=image)
+                    embed = discord.Embed(title=f"Here's your quote!", color=Colors.standard)
+                    embed.set_footer("Special thanks: https://inspirobot.me")
+                    embed.set_image(url=image)
 
-                            await ctx.send(embed=embed)
+                    await ctx.send(embed=embed)
                 
-                        else:
-                            await err_embed(ctx, f"``Response code: {resp.status}``")
+                else:
+                    await err_embed(ctx, f"``Response code: {resp.status_code}``")
 
                 
             except Exception as e:

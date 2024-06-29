@@ -17,15 +17,15 @@ class Mod(commands.Cog):
             discord.Option(name="reason", type=discord.OptionType.string, description="Reason for kick", required=False)])
         async def kick(self, ctx, target: discord.Member, reason: str):
             if not ctx.author.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "Not enough permissions!")
                 return
 
             if target.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="You can't kick another moderator!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "You can't kick another moderator!")
                 return
 
             if target == ctx.author or target == bot.user:
-                await ctx.send(embed=discord.Embed(title="You can't kick yourself or bot!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "You can't kick yourself or bot!")
                 return
 
             try:
@@ -56,15 +56,15 @@ class Mod(commands.Cog):
             discord.Option(name="reason", type=discord.OptionType.string, description="Reason for mute", required=False)])
         async def mute(self, ctx, target: discord.Member, time: int = 60, reason: str = None):
             if not ctx.author.guild_permissions.moderate_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "Not enough permissions!")
                 return
 
             if target.guild_permissions.moderate_members:
-                await ctx.send(embed=discord.Embed(title="You can't mute another moderator!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "You can't mute another moderator!")
                 return
 
             if target == ctx.author or target == bot.user:
-                await ctx.send(embed=discord.Embed(title="You can't mute yourself or bot!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "You can't mute yourself or bot!")
                 return
 
             try:
@@ -99,15 +99,15 @@ class Mod(commands.Cog):
             discord.Option(name="reason", type=discord.OptionType.string, description="Ban reason", required=False)])
         async def ban(self, ctx, target: discord.Member, reason: str):
             if not ctx.author.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "Not enough permissions!")
                 return
 
             if target.guild_permissions.kick_members:
-                await ctx.send(embed=discord.Embed(title="You can't ban another moderator!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "You can't ban another moderator!")
                 return
 
             if target == ctx.author or target == bot.user:
-                await ctx.send(embed=discord.Embed(title="You can't ban yourself or bot!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "You can't ban yourself or bot!")
                 return
 
             try:
@@ -135,7 +135,7 @@ class Mod(commands.Cog):
             discord.Option(name="amount", type=discord.OptionType.integer, description="Target message count", required=True)])
         async def clear(self, ctx, amount: int):
             if not ctx.author.guild_permissions.manage_messages:
-                await ctx.send(embed=discord.Embed(title="Not enough permissions!", color=Colors.error), ephemeral=True)
+                await err_embed(ctx, "Not enough permissions!")
                 return
 
             try:

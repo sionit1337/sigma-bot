@@ -87,13 +87,11 @@ class General(commands.Cog):
         # Eval
         @bot.slash_command(name="eval", description="RESTRICTED ACCESS", options=[
             discord.Option(name="code", type=discord.OptionType.string, description="Code you want to evaluate", required=True)])
-        @bot.is_owner
-        async def evalvlvl(self, ctx, text: str):
+        async def evalvlvl(self, ctx, code: str): # eval() is already registered keyword y'know
+            if not ctx.author.is_owner:
+                await err_embed(ctx, "RESTRICTED ACCESS")
             try:
-                text = text.replace("@everyone", "[everyone]")
-                text = text.replace("@here", "[here]")
-
-                await ctx.channel.send(text)
+                eval(code)
                 
             except Exception as e:
                 await err_embed(ctx, e)

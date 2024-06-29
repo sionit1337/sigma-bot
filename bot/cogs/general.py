@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed, logger)
+from main import (Colors, err_embed)
 from json import load
 
 from psutil import cpu_percent, virtual_memory
@@ -10,7 +10,6 @@ from psutil import cpu_percent, virtual_memory
 class General(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.logger = logger
 
 
         # Bot info command
@@ -34,9 +33,6 @@ class General(commands.Cog):
 
             except Exception as e:
                 await err_embed(ctx, e)
-
-            finally:
-                self.logger.info(f"{ctx.author}: /about")
 
 
         # Host info command
@@ -63,9 +59,6 @@ class General(commands.Cog):
             except Exception as e:
                 await err_embed(ctx, e)
 
-            finally:
-                self.logger.info(f"{ctx.author}: /host")
-
 
         # Echo
         @bot.slash_command(name="echo", description="Send message from bot's name", options=[
@@ -79,25 +72,6 @@ class General(commands.Cog):
                 
             except Exception as e:
                 await err_embed(ctx, e)
-
-            finally:
-                self.logger.info(f"{ctx.author}: /echo")
-
-
-        # Eval
-        @bot.slash_command(name="eval", description="RESTRICTED ACCESS", options=[
-            discord.Option(name="code", type=discord.OptionType.string, description="Code you want to evaluate", required=True)])
-        async def evalvlvl(self, ctx, code: str): # eval() is already registered keyword y'know
-            if not ctx.author.is_owner:
-                await err_embed(ctx, "RESTRICTED ACCESS")
-            try:
-                eval(code)
-                
-            except Exception as e:
-                await err_embed(ctx, e)
-
-            finally:
-                self.logger.info(f"{ctx.author}: /eval")
 
 
 def setup(bot: commands.Bot):

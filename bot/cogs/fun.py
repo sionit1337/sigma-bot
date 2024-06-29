@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed, logger)
+from main import (Colors, err_embed)
 
 import random
 
@@ -11,7 +11,6 @@ from aiohttp import ClientSession
 class Fun(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.logger = logger
 
         # Command that sends {endpoint}
         @bot.slash_command(name="send_animal", description="Sends animal on your choice in chat", options=[
@@ -42,9 +41,6 @@ class Fun(commands.Cog):
             except Exception as e:
                 await err_embed(ctx, e)
 
-            finally:
-                self.logger.info(f"{ctx.author}: /send_animal")
-
 
         # Command that sends inspirational (or not) quote
         @bot.slash_command(name="inspire", description="Sends inspirational (or not) quote")
@@ -68,9 +64,6 @@ class Fun(commands.Cog):
             except Exception as e:
                 await err_embed(ctx, e)
 
-            finally:
-                self.logger.info(f"{ctx.author}: /inspire")
-
 
         # Oracle (not Java vendor)
         @bot.slash_command(name="ball8", description="Asks oracle and answers your questions", options=[
@@ -91,9 +84,6 @@ class Fun(commands.Cog):
 
             except Exception as e:
                 await err_embed(ctx, e)
-
-            finally:
-                self.logger.info(f"{ctx.author}: /ball8")
                 
 
         # Famous game of rock, paper and scissors
@@ -128,9 +118,6 @@ class Fun(commands.Cog):
                 
             except Exception as e:
                 await err_embed(ctx, e)
-
-            finally:
-                self.logger.info(f"{ctx.author}: /rock_paper_scissors")
                 
 
         # Random value
@@ -150,9 +137,6 @@ class Fun(commands.Cog):
                 
             except Exception as e:
                 await err_embed(ctx, e)
-
-            finally:
-                self.logger.info(f"{ctx.author}: /rand")
                 
 
 def setup(bot: commands.Bot):

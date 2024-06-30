@@ -22,14 +22,15 @@ class Fun(commands.Cog):
             try:
                 resp = get(f"https://some-random-api.com/animal/{animal}")
                 if resp.status_code == 200:
-                    data = await resp.json()
+                    data = resp.json()
 
                     image = data["image"]
                     fact = data["fact"]
 
                     embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
-                    embed.set_footer("Special thanks: https://some-random-api.com")
                     embed.set_image(url=image)
+
+                    embed.set_footer(text="https://some-random-api.com")
 
                     await ctx.send(embed=embed)
                 
@@ -47,11 +48,12 @@ class Fun(commands.Cog):
             try:
                 resp = get("https://inspirobot.me/api?generate=true")
                 if resp.status_code == 200:
-                    image = resp.text()
-
+                    image = resp.text
+                    
                     embed = discord.Embed(title=f"Here's your quote!", color=Colors.standard)
-                    embed.set_footer("Special thanks: https://inspirobot.me")
                     embed.set_image(url=image)
+
+                    embed.set_footer(text="https://inspirobot.me")
 
                     await ctx.send(embed=embed)
                 

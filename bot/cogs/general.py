@@ -65,6 +65,7 @@ class General(commands.Cog):
             discord.Option(name="text", type=discord.OptionType.string, description="Text for sending", required=True)])
         async def echo(self, ctx, text: str):
             try:
+                text = text.replace("\\n", "\n")
                 text = text.replace("@everyone", "[everyone]")
                 text = text.replace("@here", "[here]")
 

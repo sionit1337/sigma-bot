@@ -1,4 +1,5 @@
 disnake
+gtts
 numexpr
 psutil
 requests

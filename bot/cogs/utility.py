@@ -7,6 +7,9 @@ from numexpr import evaluate
 
 from base64 import (b64decode, b64encode)
 
+import gtts
+import os
+
 
 class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -96,6 +99,28 @@ class Utility(commands.Cog):
                 embed.add_field(name="Expression", value=f"``{expr}``")
 
                 await ctx.send(embed=embed)
+                
+            except Exception as e:
+                await err_embed(ctx, e)
+
+
+        # TTS
+        @bot.slash_command(name="tts", description="Text to Speech", options=[
+            discord.Option(name="text", type=discord.OptionType.string, description="Text", required=True),
+            discord.Option(name="lang", type=discord.OptionType.string, description="Language", required=True, choices=[
+            discord.OptionChoice(name="Russian", value="ru"),
+            discord.OptionChoice(name="English", value="en"),
+            discord.OptionChoice(name="Spanish", value="es"),
+            discord.OptionChoice(name="Portuguese", value="pt"),
+            discord.OptionChoice(name="French", value="fr"),
+            discord.OptionChoice(name="Chinese (traditional)", value="zh-TW"),
+            discord.OptionChoice(name="Chinese (simplified)", value="zh-CN"),
+            ])])
+        async def tts(self, ctx, text: str, lang: str):
+            try:
+                voice = gtts.gTTS(text, lang=lang)
+                voice.save(f"{os.path.realpath(os.path.dirname(__file__))}/temp/voice.ogg")
+                await ctx.send(embed=discord.Embed(description=f"``{text}``", color=Colors.standard), file=discord.File(f"{os.path.realpath(os.path.dirname(__file__))}/temp/voice.ogg"))
                 
             except Exception as e:
                 await err_embed(ctx, e)

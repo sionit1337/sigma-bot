@@ -12,7 +12,7 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
+formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")
 
 file_handler = logging.FileHandler(filename=f"{os.path.realpath(os.path.dirname(__file__))}/logs/bot.log", encoding="utf-8", mode="w")
 file_handler.setFormatter(formatter)

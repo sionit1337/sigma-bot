@@ -1,15 +1,21 @@
 from json import load
-import os
 import re
 import requests
 
+import os
+import sys
+import platform
+from importlib.util import find_spec
+
 import logging
+
+from disnake import __version__ as disnake_version
 
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
+formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")
 
 file_handler = logging.FileHandler(filename=f"{os.path.realpath(os.path.dirname(__file__))}/bot/logs/launcher.log", encoding="utf-8", mode="w")
 file_handler.setFormatter(formatter)
@@ -30,6 +36,7 @@ class Launcher:
     def __init__(self):
         self.config = config
         self.logger = logger
+        self.version = self.config["Version"]
 
 
     def check_config(self):
@@ -46,7 +53,6 @@ class Launcher:
 
         else:
             self.logger.info("Token was found")
-
             self.start_bot()
 
 
@@ -60,10 +66,9 @@ class Launcher:
 
         data = latest_config.json()
         latest_version = data["Version"]
-        local_version = self.config["Version"]
-        self.logger.info(f"Installed: {local_version} | Latest: {latest_version}")
+        self.logger.info(f"Installed: {self.version} | Latest: {latest_version}")
 
-        if local_version != latest_version:
+        if self.version != latest_version:
             self.logger.info(f"New update: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
 
         else:
@@ -74,6 +79,38 @@ class Launcher:
         self.logger.info("Starting bot...")
         os.system(f"python {os.path.abspath("bot/main.py")}")
 
+    
+    def check_modules(self):
+        with open("requirements.txt", "r") as file:
+            reqs = file.read()
+        
+        reqs = reqs.split("\n")
+        if "" in reqs:
+            reqs.remove("")
+
+        reqs_not_installed = []
+
+        for req in reqs:
+            if not find_spec(req):
+                reqs_not_installed.append(req)
+
+        if reqs_not_installed:
+            self.logger.warning(f"You haven't installed some requirements: {', '.join(reqs_not_installed)}")
+            self.logger.info("Installing...")
+            
+            for req in reqs_not_installed:
+                os.system(f"pip install -U {req}")
+
+        else:
+            self.logger.info("All modules installed")
+
+
+    def log_info(self):
+        self.logger.info(f"OS: {platform.system()} {platform.release()}")
+        self.logger.info(f"Python version: {sys.version.split(" ")[0]}")
+        self.logger.info(f"Disnake version: {disnake_version}")
+        self.logger.info(f"Bot version (currently installed): {self.version}")
+
 
     def start_launcher(self):
         os.system("cls" if os.name == "nt" else "clear")
@@ -81,6 +118,8 @@ class Launcher:
         print("You're using Sigma Bot! Don't forget to star the repository!")
 
         self.check_updates()
+        self.check_modules()
+        self.log_info()
         self.check_config()
 
 

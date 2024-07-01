@@ -1,4 +1,4 @@
-disnake>=2.9.1
-numexpr>=2.10.0
-psutil>=5.9.8
-requests>=2.32.3
+disnake
+numexpr
+psutil
+requests

@@ -101,33 +101,5 @@ class Utility(commands.Cog):
                 await err_embed(ctx, e)
 
 
-        # Base64
-        @bot.slash_command(name="b64", description="Encode your text to Base64 or decode something from it", options=[
-            discord.Option(name="string", type=discord.OptionType.string, description="String to operate on it", required=True),
-            discord.Option(name="mode", type=discord.OptionType.string, description="Decode or encode", required=True, choices=[
-            discord.OptionChoice(name="Decode", value="en"),
-            discord.OptionChoice(name="Encode", value="de")])])
-        async def b64(self, ctx, string: str, mode: str):
-            try:
-                result: str
-
-                match mode:
-                    case "en":
-                        result = b64encode(string.encode("utf-8")).decode("utf-8")
-
-                    case "de":
-                        result = b64decode(string.encode("utf-8")).decode("utf-8")
-
-
-                embed = discord.Embed(description=f"# ``{result}``", color=Colors.standard)
-
-                embed.add_field(name="Input string", value=f"``{string}``")
-
-                await ctx.send(embed=embed)
-                
-            except Exception as e:
-                await err_embed(ctx, e)
-
-
 def setup(bot: commands.Bot):
     bot.add_cog(Utility(bot))

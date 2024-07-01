@@ -20,4 +20,6 @@ Just start the launcher and follow instructions
 
 - [ ] Destroyer of images (in quality)
 
+- [ ] Base64 (en/de)coder 
+
 - [ ] ✨IMPROVE✨

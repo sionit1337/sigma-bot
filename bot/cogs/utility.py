@@ -5,8 +5,6 @@ from main import (Colors, err_embed)
 
 from numexpr import evaluate
 
-from base64 import (b64decode, b64encode)
-
 import gtts
 import os
 
@@ -20,6 +18,7 @@ class Utility(commands.Cog):
         async def server_info(self, ctx):
             try:
                 server = ctx.guild
+                role_names = [role.name for role in server.roles[1:]]
 
                 embed = discord.Embed(title=f"{server.name}", color=Colors.standard)
 
@@ -32,7 +31,9 @@ class Utility(commands.Cog):
                 embed.add_field(name="Channel count", value=f"``{len(server.channels)}``")
 
                 embed.add_field(name="Server ID", value=f"``{server.id}``")
-                embed.add_field(name="Date of creation", value=f"``{server.created_at.strftime('%Y-%m-%d %H:%M:%S')}``")
+                embed.add_field(name="Date of creation", value=f"<t:{server.created_at.timestamp()}:>")
+
+                embed.add_field(name="Roles count", value=f"``{len(role_names) if role_names else 'No roles'}`` (``{'``, ``'.join(role_names) if role_names else '@everyone'}``)")
 
                 await ctx.send(embed=embed)
 
@@ -67,8 +68,8 @@ class Utility(commands.Cog):
 
                 embed.add_field(name="Status", value=f"``{status_name[str(member.status)]}``")
 
-                embed.add_field(name="Joined Discord", value=f"<t:{round(member.created_at.timestamp())}:R>")
-                embed.add_field(name="Joined this server", value=f"<t:{round(member.joined_at.timestamp())}:R>")
+                embed.add_field(name="Joined Discord", value=f"<t:{round(member.created_at.timestamp())}:>")
+                embed.add_field(name="Joined this server", value=f"<t:{round(member.joined_at.timestamp())}:>")
 
                 embed.add_field(name="Is bot", value=f"``{'Yes' if member.bot else 'No'}``")
                 

@@ -34,16 +34,40 @@ with open(cfg_path, "r") as file:
 
 class Launcher:
     def __init__(self):
-        self.config = config
+        self._config = config
         self.logger = logger
-        self.version = self.config["Version"]
+
+
+    def get_versions(self):
+        latest_config = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/bot/not-scripts/config.json")
+
+        if latest_config.status_code != 200:
+            self.logger.error(f"Something went wrong and launcher cannot get the version")
+            return
+
+        data = latest_config.json()
+
+        latest_version = data["Version"]
+        local_version = self.get_config["Version"]
+
+        versions = {
+            "Local": local_version,
+            "Latest": latest_version
+            }
+
+        return versions
+
+
+    @property
+    def get_config(self):
+        return self._config
 
 
     def check_config(self):
         self.logger.info("Checking config for token...")
 
         pattern = re.compile("[-a-zA-Z0-9_].[-a-zA-Z0-9_].[-a-zA-Z0-9_]")
-        match = re.search(pattern, self.config["Token"])
+        match = re.search(pattern, self.get_config["Token"])
 
         if not match:
             self.logger.warning("Token wasn't found")
@@ -59,17 +83,10 @@ class Launcher:
     def check_updates(self):
         self.logger.info("Checking for updates...")
 
-        latest_config = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/bot/not-scripts/config.json")
-        if latest_config.status_code != 200:
-            self.logger.error(f"Something went wrong and launcher cannot get the version")
-            return
+        versions = self.get_versions()
 
-        data = latest_config.json()
-        latest_version = data["Version"]
-        self.logger.info(f"Installed: {self.version} | Latest: {latest_version}")
-
-        if self.version != latest_version:
-            self.logger.info(f"New update: {latest_version}! \nVisit https://github.com/sionit1337/sigma-bot")
+        if versions["Local"] != versions["Latest"]:
+            self.logger.info(f"New update: {versions["Latest"]}! \nVisit https://github.com/sionit1337/sigma-bot")
 
         else:
             self.logger.info("No updates found")
@@ -107,9 +124,14 @@ class Launcher:
 
     def log_info(self):
         self.logger.info(f"OS: {platform.system()} {platform.release()}")
+
         self.logger.info(f"Python version: {sys.version.split(" ")[0]}")
         self.logger.info(f"Disnake version: {disnake_version}")
-        self.logger.info(f"Bot version (currently installed): {self.version}")
+
+        versions = self.get_versions()
+
+        self.logger.info(f"Bot version (currently installed): {versions["Local"]}")
+        self.logger.info(f"Bot version (latest found on repo): {versions["Latest"]}")
 
 
     def start_launcher(self):
@@ -117,8 +139,8 @@ class Launcher:
         self.logger.info("Launcher has started")
         print("You're using Sigma Bot! Don't forget to star the repository!")
 
-        self.check_updates()
         self.check_modules()
+        self.check_updates()
         self.log_info()
         self.check_config()
 
@@ -127,8 +149,8 @@ class Launcher:
 if __name__ == "__main__":
     launcher = Launcher()
 
-    try:
-        launcher.start_launcher()
+    #try:
+    launcher.start_launcher()
 
-    except Exception as e:
-        print(f"Something went wrong! \n{e}")
+    #except Exception as e:
+    #    print(f"Something went wrong! \n{e}")

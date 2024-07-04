@@ -3,13 +3,10 @@ import re
 import requests
 
 import os
-import sys
 import platform
 from importlib.util import find_spec
 
 import logging
-
-from disnake import __version__ as disnake_version
 
 
 logger = logging.getLogger()
@@ -66,7 +63,7 @@ class Launcher:
     def check_config(self):
         self.logger.info("Checking config for token...")
 
-        pattern = re.compile("[-a-zA-Z0-9_].[-a-zA-Z0-9_].[-a-zA-Z0-9_]")
+        pattern = re.compile("[\w\-]+\.[\w\-]+\.[\w\-]+")
         match = re.search(pattern, self.get_config["Token"])
 
         if not match:
@@ -123,10 +120,14 @@ class Launcher:
 
 
     def log_info(self):
-        self.logger.info(f"OS: {platform.system()} {platform.release()}")
+        self.logger.info(f"OS: {platform.platform()}")
+        self.logger.info(f"Architecture: {platform.architecture()[0]}")
 
-        self.logger.info(f"Python version: {sys.version.split(" ")[0]}")
-        self.logger.info(f"Disnake version: {disnake_version}")
+        self.logger.info(f"Python version: {platform.python_version()}")
+
+        if find_spec("disnake"):
+            from disnake import __version__ as disnake_version
+            self.logger.info(f"Disnake version: {disnake_version}")
 
         versions = self.get_versions()
 
@@ -149,8 +150,8 @@ class Launcher:
 if __name__ == "__main__":
     launcher = Launcher()
 
-    #try:
-    launcher.start_launcher()
+    try:
+        launcher.start_launcher()
 
-    #except Exception as e:
-    #    print(f"Something went wrong! \n{e}")
+    except Exception as e:
+        print(f"Something went wrong! \n{e}")

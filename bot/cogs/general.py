@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed)
+from main import (Colors, err_embed, here)
 from json import load
 
 from psutil import cpu_percent, virtual_memory
@@ -17,7 +17,7 @@ class General(commands.Cog):
         async def about(self, ctx):
             try:
                 client = bot.user
-                with open("bot/not-scripts/config.json") as file:
+                with open(f"{here}/not-scripts/config.json") as file:
                     version = load(file)["Version"]
 
                 embed = discord.Embed(title=f"{client.display_name}", description="Just a bot with standard features", color=Colors.standard)
@@ -42,6 +42,7 @@ class General(commands.Cog):
                 cpu = cpu_percent()
 
                 ram_percent = virtual_memory().percent
+                
                 # 1 megabyte is 1048576 bytes y'know
                 ram_used = round(virtual_memory().used / 1048576)
                 ram_total = round(virtual_memory().total / 1048576)
@@ -61,13 +62,11 @@ class General(commands.Cog):
 
 
         # Echo
-        @bot.slash_command(name="echo", description="Send message from bot's name", options=[
+        @bot.slash_command(name="echo", description="Send message from bot's name (supports newlines)", options=[
             discord.Option(name="text", type=discord.OptionType.string, description="Text for sending", required=True)])
         async def echo(self, ctx, text: str):
             try:
-                text = text.replace("\\n", "\n")
-                text = text.replace("@everyone", "[everyone]")
-                text = text.replace("@here", "[here]")
+                text = text.replace("\\n", "\n").replace("@everyone", "[everyone]").replace("@here", "[here]")
 
                 await ctx.channel.send(text)
                 

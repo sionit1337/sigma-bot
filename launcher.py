@@ -13,8 +13,9 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")
+here = os.path.realpath(os.path.dirname(__file__))
 
-file_handler = logging.FileHandler(filename=f"{os.path.realpath(os.path.dirname(__file__))}/bot/logs/launcher.log", encoding="utf-8", mode="w")
+file_handler = logging.FileHandler(filename=f"{here}/bot/logs/launcher.log", encoding="utf-8", mode="w")
 file_handler.setFormatter(formatter)
 
 console_handler = logging.StreamHandler()
@@ -23,7 +24,7 @@ console_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
-cfg_path = f"{os.path.realpath(os.path.dirname(__file__))}/bot/not-scripts/config.json"
+cfg_path = f"{here}/bot/not-scripts/config.json"
 
 with open(cfg_path, "r") as file:
     config = load(file)
@@ -39,7 +40,7 @@ class Launcher:
         latest_config = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/bot/not-scripts/config.json")
 
         if latest_config.status_code != 200:
-            self.logger.error(f"Something went wrong and launcher cannot get the version")
+            self.logger.error(f"Something went wrong and launcher cannot get the latest version")
             return
 
         data = latest_config.json()
@@ -61,7 +62,7 @@ class Launcher:
 
 
     def check_config(self):
-        self.logger.info("Checking config for token...")
+        self.logger.info("Checking config for token... (with regex)")
 
         pattern = re.compile("[\w\-]+\.[\w\-]+\.[\w\-]+")
         match = re.search(pattern, self.get_config["Token"])
@@ -73,7 +74,6 @@ class Launcher:
             return
 
         else:
-            self.logger.info("Token was found")
             self.start_bot()
 
 
@@ -83,10 +83,7 @@ class Launcher:
         versions = self.get_versions()
 
         if versions["Local"] != versions["Latest"]:
-            self.logger.info(f"New update: {versions["Latest"]}! \nVisit https://github.com/sionit1337/sigma-bot")
-
-        else:
-            self.logger.info("No updates found")
+            self.logger.info(f"Version in repository has been changed: {versions["Latest"]} (maybe an update)")
 
 
     def start_bot(self):

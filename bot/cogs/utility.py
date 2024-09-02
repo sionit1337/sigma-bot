@@ -1,12 +1,12 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed)
+from main import (Colors, err_embed, here)
 
 from numexpr import evaluate
 
 import gtts
-import os
+from random import randint
 
 
 class Utility(commands.Cog):
@@ -116,12 +116,31 @@ class Utility(commands.Cog):
             discord.OptionChoice(name="French", value="fr"),
             discord.OptionChoice(name="Chinese (traditional)", value="zh-TW"),
             discord.OptionChoice(name="Chinese (simplified)", value="zh-CN"),
-            ])])
+            ])]) # holy cow
         async def tts(self, ctx, text: str, lang: str):
             try:
                 voice = gtts.gTTS(text, lang=lang)
-                voice.save(f"{os.path.realpath(os.path.dirname(__file__))}/temp/voice.ogg")
-                await ctx.send(embed=discord.Embed(description=f"``{text}``", color=Colors.standard), file=discord.File(f"{os.path.realpath(os.path.dirname(__file__))}/temp/voice.ogg"))
+                voice.save(f"{here}/cogs/temp/voice.ogg")
+                await ctx.send(embed=discord.Embed(description=f"``{text}``", color=Colors.standard), file=discord.File(f"{here}/cogs/temp/voice.ogg"))
+                
+            except Exception as e:
+                await err_embed(ctx, e)
+                
+                
+                # Random value
+        @bot.slash_command(name="rand", description="Generate random number", options=[
+            discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), 
+            discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
+        async def rand(self, ctx, min: int, max: int):
+            try:
+                randvalue = randint(min, max)
+
+                embed = discord.Embed(description=f"# ``{randvalue}``", color=Colors.standard)
+
+                embed.add_field(name="Min value", value=f"``{min}``")
+                embed.add_field(name="Max value", value=f"``{max}``")
+
+                await ctx.send(embed=embed)
                 
             except Exception as e:
                 await err_embed(ctx, e)

@@ -21,22 +21,22 @@ class Fun(commands.Cog):
         async def send_animal(self, ctx, animal: str):
             try:
                 resp = get(f"https://some-random-api.com/animal/{animal}")
-                if resp.status_code == 200:
-                    data = resp.json()
-
-                    image = data["image"]
-                    fact = data["fact"]
-
-                    embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
-                    embed.set_image(url=image)
-
-                    embed.set_footer(text="https://some-random-api.com")
-
-                    await ctx.send(embed=embed)
                 
-                else:
+                if not resp.status_code == 200:
                     await err_embed(ctx, f"Response code: {resp.status_code}")
+                    return
+                
+                data = resp.json()
 
+                image = data["image"]
+                fact = data["fact"]
+
+                embed = discord.Embed(title=f"post this {animal} as fast as possible", description=f"``{fact}``", color=Colors.standard)
+                embed.set_image(url=image)
+
+                embed.set_footer(text="https://some-random-api.com")
+
+                await ctx.send(embed=embed)
                 
             except Exception as e:
                 await err_embed(ctx, e)
@@ -47,19 +47,19 @@ class Fun(commands.Cog):
         async def inspire(self, ctx):
             try:
                 resp = get("https://inspirobot.me/api?generate=true")
-                if resp.status_code == 200:
-                    image = resp.text
-                    
-                    embed = discord.Embed(title=f"Here's your quote!", color=Colors.standard)
-                    embed.set_image(url=image)
-
-                    embed.set_footer(text="https://inspirobot.me")
-
-                    await ctx.send(embed=embed)
                 
-                else:
+                if not resp.status_code == 200:
                     await err_embed(ctx, f"``Response code: {resp.status_code}``")
+                    return
+                
+                image = resp.text
+                    
+                embed = discord.Embed(title=f"Here's your quote!", color=Colors.standard)
+                embed.set_image(url=image)
 
+                embed.set_footer(text="https://inspirobot.me")
+
+                await ctx.send(embed=embed)
                 
             except Exception as e:
                 await err_embed(ctx, e)
@@ -79,6 +79,7 @@ class Fun(commands.Cog):
 
                 embed = discord.Embed(title="Oracle", color=Colors.standard)
                 embed.add_field(name=f"``{question}``", value=f"**{random.choice(random.choice(answers))}**")
+                embed.set_footer("||https://en.wikipedia.org/wiki/Magic_8_Ball (for answers)||")
 
                 await ctx.send(embed=embed)
 
@@ -116,23 +117,6 @@ class Fun(commands.Cog):
                 embed.add_field(name=f"Bot's choice", value=f"``{bot_choice}``")
                 embed.add_field(name=f"Result", value=f"``{result}``")
                 
-            except Exception as e:
-                await err_embed(ctx, e)
-                
-
-        # Random value
-        @bot.slash_command(name="rand", description="Generate random number", options=[
-            discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), 
-            discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
-        async def rand(self, ctx, min: int, max: int):
-            try:
-                randvalue = random.randint(min, max)
-
-                embed = discord.Embed(description=f"# ``{randvalue}``", color=Colors.standard)
-
-                embed.add_field(name="Min value", value=f"``{min}``")
-                embed.add_field(name="Max value", value=f"``{max}``")
-
                 await ctx.send(embed=embed)
                 
             except Exception as e:

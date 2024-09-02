@@ -6,7 +6,7 @@ from main import (Colors, err_embed, here)
 from numexpr import evaluate
 
 import gtts
-from random import randint
+from random import randint, choice
 
 
 class Utility(commands.Cog):
@@ -127,7 +127,7 @@ class Utility(commands.Cog):
                 await err_embed(ctx, e)
                 
                 
-                # Random value
+        # Random value
         @bot.slash_command(name="rand", description="Generate random number", options=[
             discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), 
             discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
@@ -139,6 +139,29 @@ class Utility(commands.Cog):
 
                 embed.add_field(name="Min value", value=f"``{min}``")
                 embed.add_field(name="Max value", value=f"``{max}``")
+
+                await ctx.send(embed=embed)
+                
+            except Exception as e:
+                await err_embed(ctx, e)
+                
+                
+        # Choice
+        @bot.slash_command(name="choice", description="Let the bot choose for you", options=[
+            discord.Option(name="choices", type=discord.OptionType.string, description="Choices (divide with |)", required=True)])
+        async def choice_69(self, ctx, choices: str): # haha funny number 
+            try:
+                if "|" not in choices:
+                    await err_embed(ctx, f"No actual choice in {choices}")
+                    return
+                
+                choices_list = choices.split("|")
+                ch = choice(choices_list)
+                # i have no ideas for naming variables
+
+                embed = discord.Embed(description=f"# ``{ch}``", color=Colors.standard)
+
+                embed.add_field(name="Choices", value=f"``{choices}``")
 
                 await ctx.send(embed=embed)
                 

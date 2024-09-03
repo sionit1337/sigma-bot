@@ -9,12 +9,13 @@ from importlib.util import find_spec
 import logging
 
 
+here = os.path.realpath(os.path.dirname(__file__))
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")
-here = os.path.realpath(os.path.dirname(__file__))
-
+    
 file_handler = logging.FileHandler(filename=f"{here}/bot/logs/launcher.log", encoding="utf-8", mode="w")
 file_handler.setFormatter(formatter)
 
@@ -64,7 +65,7 @@ class Launcher:
     def check_config(self):
         self.logger.info("Checking config for token... (with regex)")
 
-        pattern = re.compile("[\w\-]+\.[\w\-]+\.[\w\-]+")
+        pattern = re.compile("[a-zA-Z0-9-]+.[a-zA-Z0-9-]+.[a-zA-Z0-9-]+")
         match = re.search(pattern, self.get_config["Token"])
 
         if not match:
@@ -73,8 +74,7 @@ class Launcher:
             self.logger.info("Insert the token in config and restart laucher to apply the changes")
             return
 
-        else:
-            self.start_bot()
+        self.start_bot()
 
 
     def check_updates(self):
@@ -84,11 +84,14 @@ class Launcher:
 
         if versions["Local"] != versions["Latest"]:
             self.logger.info(f"Version in repository has been changed: {versions["Latest"]} (maybe an update)")
+            
+        else:
+            self.logger.info("Latest version is installed")
 
 
     def start_bot(self):
         self.logger.info("Starting bot...")
-        os.system(f"python {os.path.abspath("bot/main.py")}")
+        os.system(f"python {here}\\bot\\main.py")
 
     
     def check_modules(self):
@@ -102,18 +105,20 @@ class Launcher:
         reqs_not_installed = []
 
         for req in reqs:
-            if not find_spec(req):
-                reqs_not_installed.append(req)
-
-        if reqs_not_installed:
-            self.logger.warning(f"You haven't installed some requirements: {', '.join(reqs_not_installed)}")
-            self.logger.info("Installing...")
+            if find_spec(req):
+                continue
             
-            for req in reqs_not_installed:
-                os.system(f"pip install -U {req}")
+            reqs_not_installed.append(req)
 
-        else:
+        if not reqs_not_installed:
             self.logger.info("All modules installed")
+            return
+            
+        self.logger.warning(f"You haven't installed some requirements: {', '.join(reqs_not_installed)}")
+        self.logger.info("Installing...")
+            
+        for req in reqs_not_installed:
+            os.system(f"pip install -U {req}")
 
 
     def log_info(self):

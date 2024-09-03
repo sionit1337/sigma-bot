@@ -7,12 +7,12 @@ import os
 from random import choice
 
 import logging
+from launcher import formatter
 
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")
 here = os.path.realpath(os.path.dirname(__file__))
 
 file_handler = logging.FileHandler(filename=f"{here}/logs/bot.log", encoding="utf-8", mode="w")
@@ -53,20 +53,20 @@ class Bot(commands.InteractionBot):
         super().__init__(intents=intents)
         
         
-        @property
-        def get_config(self):
-            return self._config
+    @property
+    def get_config(self):
+        return self._config
 
 
-    def setup_cogs(self):
-        for file in os.listdir(f"{here}/cogs"):
+    async def setup_cogs(self):
+        async for file in os.listdir(f"{here}/cogs"):
             if not file.endswith(".py"):
                 continue
             
             cog = file[:-3] # Looks like :3 lol
 
             try:
-                self.load_extension(f"cogs.{cog}")
+                await self.load_extension(f"cogs.{cog}")
                 self.logger.info(f"Successfully loaded cog \"{cog}\"")
 
             except Exception as e:
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     @bot.event
     async def on_ready():
         logger.info(f"Logged in as {bot.user.display_name}")
-        bot.setup_cogs()
+        await bot.setup_cogs()
         
         motds = [
             "Visual Studio Code", 

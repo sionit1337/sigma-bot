@@ -6,6 +6,8 @@ import os
 import platform
 from importlib.util import find_spec
 
+import subprocess
+
 import logging
 
 
@@ -91,7 +93,7 @@ class Launcher:
 
     def start_bot(self):
         self.logger.info("Starting bot...")
-        os.system(f"python {here}\\bot\\main.py")
+        subprocess.run(["python", f"{os.path.abspath("bot/main.py")}"])
 
     
     def check_modules(self):
@@ -146,7 +148,6 @@ class Launcher:
         self.check_updates()
         self.log_info()
         self.check_config()
-
 
 
 if __name__ == "__main__":

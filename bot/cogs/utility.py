@@ -6,8 +6,10 @@ from main import (Colors, err_embed, here)
 from numexpr import evaluate
 
 import gtts
-from random import randint, choice
+from random import choice
+import os
 
+here = os.path.realpath(os.path.dirname(__file__))
 
 class Utility(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -31,9 +33,9 @@ class Utility(commands.Cog):
                 embed.add_field(name="Channel count", value=f"``{len(server.channels)}``")
 
                 embed.add_field(name="Server ID", value=f"``{server.id}``")
-                embed.add_field(name="Date of creation", value=f"<t:{server.created_at.timestamp()}:>")
+                embed.add_field(name="Date of creation", value=f"<t:{round(server.created_at.timestamp())}>")
 
-                embed.add_field(name="Roles count", value=f"``{len(role_names) if role_names else 'No roles'}`` (``{'``, ``'.join(role_names) if role_names else '@everyone'}``)")
+                embed.add_field(name="Roles count", value=f"``{len(role_names) if role_names else 'No roles'}`` ||(``{'``, ``'.join(role_names) if role_names else '@everyone'}``)||")
 
                 await ctx.send(embed=embed)
 
@@ -68,12 +70,12 @@ class Utility(commands.Cog):
 
                 embed.add_field(name="Status", value=f"``{status_name[str(member.status)]}``")
 
-                embed.add_field(name="Joined Discord", value=f"<t:{round(member.created_at.timestamp())}:>")
-                embed.add_field(name="Joined this server", value=f"<t:{round(member.joined_at.timestamp())}:>")
+                embed.add_field(name="Joined Discord", value=f"<t:{round(member.created_at.timestamp())}>")
+                embed.add_field(name="Joined this server", value=f"<t:{round(member.joined_at.timestamp())}>")
 
                 embed.add_field(name="Is bot", value=f"``{'Yes' if member.bot else 'No'}``")
                 
-                embed.add_field(name="Roles", value=f"``{len(role_names) if role_names else 'No roles'}`` (``{'``, ``'.join(role_names) if role_names else '@everyone'}``)")
+                embed.add_field(name="Roles", value=f"``{len(role_names) if role_names else 'No roles'}`` ||(``{'``, ``'.join(role_names) if role_names else '@everyone'}``)||")
 
                 await ctx.send(embed=embed)
 
@@ -87,13 +89,7 @@ class Utility(commands.Cog):
         async def math(self, ctx, expr: str):
             try:
                 def solve(expr: str):
-                    try:
-                        solved = evaluate(expr)
-                        return solved
-                    
-                    except Exception:
-                        return "Expression couldn't be solved"
-
+                        return evaluate(expr)
 
                 embed = discord.Embed(description=f"# ``{solve(expr)}``", color=Colors.standard)
 
@@ -120,27 +116,8 @@ class Utility(commands.Cog):
         async def tts(self, ctx, text: str, lang: str):
             try:
                 voice = gtts.gTTS(text, lang=lang)
-                voice.save(f"{here}/cogs/temp/voice.ogg")
-                await ctx.send(embed=discord.Embed(description=f"``{text}``", color=Colors.standard), file=discord.File(f"{here}/cogs/temp/voice.ogg"))
-                
-            except Exception as e:
-                await err_embed(ctx, e)
-                
-                
-        # Random value
-        @bot.slash_command(name="rand", description="Generate random number", options=[
-            discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), 
-            discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
-        async def rand(self, ctx, min: int, max: int):
-            try:
-                randvalue = randint(min, max)
-
-                embed = discord.Embed(description=f"# ``{randvalue}``", color=Colors.standard)
-
-                embed.add_field(name="Min value", value=f"``{min}``")
-                embed.add_field(name="Max value", value=f"``{max}``")
-
-                await ctx.send(embed=embed)
+                voice.save(f"{here}/temp/voice.ogg")
+                await ctx.send(embed=discord.Embed(description=f"``{text}``", color=Colors.standard), file=discord.File(f"{here}/temp/voice.ogg"))
                 
             except Exception as e:
                 await err_embed(ctx, e)
@@ -148,14 +125,14 @@ class Utility(commands.Cog):
                 
         # Choice
         @bot.slash_command(name="choice", description="Let the bot choose for you", options=[
-            discord.Option(name="choices", type=discord.OptionType.string, description="Choices (divide with |)", required=True)])
+            discord.Option(name="choices", type=discord.OptionType.string, description="Choices (divide with \" | \")", required=True)])
         async def choice_69(self, ctx, choices: str): # haha funny number 
             try:
-                if "|" not in choices:
-                    await err_embed(ctx, f"No actual choice in {choices}")
+                if " | " not in choices:
+                    await err_embed(ctx, f"Wrong formatting (e.g. a | b | c)")
                     return
                 
-                choices_list = choices.split("|")
+                choices_list = choices.split(" | ")
                 ch = choice(choices_list)
                 # i have no ideas for naming variables
 

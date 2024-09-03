@@ -79,7 +79,7 @@ class Fun(commands.Cog):
 
                 embed = discord.Embed(title="Oracle", color=Colors.standard)
                 embed.add_field(name=f"``{question}``", value=f"**{random.choice(random.choice(answers))}**")
-                embed.set_footer("||https://en.wikipedia.org/wiki/Magic_8_Ball (for answers)||")
+                embed.set_footer(text="||https://en.wikipedia.org/wiki/Magic_8_Ball (for answers)||")
 
                 await ctx.send(embed=embed)
 
@@ -95,7 +95,7 @@ class Fun(commands.Cog):
             discord.OptionChoice(name="Scissors", value="scissors")])])
         async def ropasci(self, ctx, choice: str):
             try:
-                embed = discord.Embed(title="Rock-Paper-Scissors", colors=Colors.standard)
+                embed = discord.Embed(title="Rock-Paper-Scissors", color=Colors.standard)
 
                 bot_choice = random.choice(["rock", "paper", "scissors"])
                 result: str

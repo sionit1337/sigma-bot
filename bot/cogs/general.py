@@ -5,6 +5,7 @@ from main import (Colors, err_embed, here)
 from json import load
 
 from psutil import cpu_percent, virtual_memory
+from random import randint
 
 
 class General(commands.Cog):
@@ -69,6 +70,25 @@ class General(commands.Cog):
                 text = text.replace("\\n", "\n").replace("@everyone", "[everyone]").replace("@here", "[here]")
 
                 await ctx.channel.send(text)
+                
+            except Exception as e:
+                await err_embed(ctx, e)
+                
+                
+        # Random value
+        @bot.slash_command(name="rand", description="Generate random number", options=[
+            discord.Option(name="min", type=discord.OptionType.integer, description="Min value", required=True), 
+            discord.Option(name="max", type=discord.OptionType.integer, description="Max value", required=True)])
+        async def rand(self, ctx, min: int, max: int):
+            try:
+                randvalue = randint(min, max)
+
+                embed = discord.Embed(description=f"# ``{randvalue}``", color=Colors.standard)
+
+                embed.add_field(name="Min value", value=f"``{min}``")
+                embed.add_field(name="Max value", value=f"``{max}``")
+
+                await ctx.send(embed=embed)
                 
             except Exception as e:
                 await err_embed(ctx, e)

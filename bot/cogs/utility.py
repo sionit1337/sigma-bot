@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed, here)
+from main import (err_embed, here, Colors)
 
 from numexpr import evaluate
 

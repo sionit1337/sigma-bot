@@ -1,7 +1,7 @@
 import disnake as discord
 from disnake.ext import commands
 
-from main import (Colors, err_embed)
+from main import (err_embed, Colors)
 
 import datetime
 

@@ -8,24 +8,14 @@ from importlib.util import find_spec
 
 import subprocess
 
+from bot.logger import Logger
 import logging
 
 
 here = os.path.realpath(os.path.dirname(__file__))
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
-formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")
-    
-file_handler = logging.FileHandler(filename=f"{here}/bot/logs/launcher.log", encoding="utf-8", mode="w")
-file_handler.setFormatter(formatter)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-
-logger.addHandler(file_handler)
-logger.addHandler(console_handler)
+logger = Logger(f"{here}/bot", "launcher")
+logger.init_logger()
 
 cfg_path = f"{here}/bot/not-scripts/config.json"
 
@@ -35,7 +25,7 @@ with open(cfg_path, "r") as file:
 
 class Launcher:
     def __init__(self):
-        self._config = config
+        self.__config = config
         self.logger = logger
 
 
@@ -43,7 +33,7 @@ class Launcher:
         latest_config = requests.get("https://raw.githubusercontent.com/sionit1337/sigma-bot/main/bot/not-scripts/config.json")
 
         if latest_config.status_code != 200:
-            self.logger.error(f"Something went wrong and launcher cannot get the latest version")
+            self.logger.log(f"Something went wrong and launcher cannot get the latest version (HTTP {latest_config.status_code})", logging.ERROR)
             return
 
         data = latest_config.json()
@@ -61,38 +51,36 @@ class Launcher:
 
     @property
     def get_config(self):
-        return self._config
+        return self.__config
 
 
     def check_config(self):
-        self.logger.info("Checking config for token... (with regex)")
+        self.logger.log("Checking config for token... (with regex)", logging.INFO)
 
         pattern = re.compile("[a-zA-Z0-9-]+.[a-zA-Z0-9-]+.[a-zA-Z0-9-]+")
         match = re.search(pattern, self.get_config["Token"])
 
         if not match:
-            self.logger.warning("Token wasn't found")
-
-            self.logger.info("Insert the token in config and restart laucher to apply the changes")
+            self.logger.log("Token wasn't found", logging.ERROR)
             return
 
         self.start_bot()
 
 
     def check_updates(self):
-        self.logger.info("Checking for updates...")
+        self.logger.log("Checking for updates...", logging.INFO)
 
         versions = self.get_versions()
 
         if versions["Local"] != versions["Latest"]:
-            self.logger.info(f"Version in repository has been changed: {versions["Latest"]} (maybe an update)")
+            self.logger.log(f"Version in repository has been changed: {versions["Latest"]} (maybe an update)", logging.WARN)
             
         else:
-            self.logger.info("Latest version is installed")
+            self.logger.log("Latest version is installed", logging.INFO)
 
 
     def start_bot(self):
-        self.logger.info("Starting bot...")
+        self.logger.log("Starting bot...", logging.INFO)
         subprocess.run(["python", f"{os.path.abspath("bot/main.py")}"])
 
     
@@ -113,36 +101,34 @@ class Launcher:
             reqs_not_installed.append(req)
 
         if not reqs_not_installed:
-            self.logger.info("All modules installed")
+            self.logger.log("All modules installed", logging.INFO)
             return
             
-        self.logger.warning(f"You haven't installed some requirements: {', '.join(reqs_not_installed)}")
-        self.logger.info("Installing...")
+        self.logger.log(f"You haven't installed some requirements: {', '.join(reqs_not_installed)}", logging.WARN)
+        self.logger.log("Installing...", logging.INFO)
             
         for req in reqs_not_installed:
             os.system(f"pip install -U {req}")
 
 
     def log_info(self):
-        self.logger.info(f"OS: {platform.platform()}")
-        self.logger.info(f"Architecture: {platform.architecture()[0]}")
+        self.logger.log(f"OS: {platform.platform()}", logging.INFO)
+        self.logger.log(f"Architecture: {platform.architecture()[0]}", logging.INFO)
 
-        self.logger.info(f"Python version: {platform.python_version()}")
+        self.logger.log(f"Python version: {platform.python_version()}", logging.INFO)
 
-        if find_spec("disnake"):
-            from disnake import __version__ as disnake_version
-            self.logger.info(f"Disnake version: {disnake_version}")
+        from disnake import __version__ as disnake_version
+        self.logger.log(f"Disnake version: {disnake_version}", logging.INFO)
 
         versions = self.get_versions()
 
-        self.logger.info(f"Bot version (currently installed): {versions["Local"]}")
-        self.logger.info(f"Bot version (latest found on repo): {versions["Latest"]}")
+        self.logger.log(f"Bot version (currently installed): {versions["Local"]}", logging.INFO)
+        self.logger.log(f"Bot version (latest found on repo): {versions["Latest"]}", logging.INFO)
 
 
     def start_launcher(self):
         os.system("cls" if os.name == "nt" else "clear")
-        self.logger.info("Launcher has started")
-        print("You're using Sigma Bot! Don't forget to star the repository!")
+        self.logger.log("Launcher has been started", logging.INFO)
 
         self.check_modules()
         self.check_updates()
@@ -157,4 +143,4 @@ if __name__ == "__main__":
         launcher.start_launcher()
 
     except Exception as e:
-        print(f"Something went wrong! \n{e}")
+        launcher.logger.log(f"Something went wrong! \n{e}", logging.ERROR)

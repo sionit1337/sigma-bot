@@ -9,6 +9,7 @@ import gtts
 from random import choice
 import os
 
+
 here = os.path.realpath(os.path.dirname(__file__))
 
 class Utility(commands.Cog):
@@ -89,7 +90,11 @@ class Utility(commands.Cog):
         async def math(self, ctx, expr: str):
             try:
                 def solve(expr: str):
+                    try:
                         return evaluate(expr)
+                    
+                    except Exception:
+                        return expr
 
                 embed = discord.Embed(description=f"# ``{solve(expr)}``", color=Colors.standard)
 
@@ -117,7 +122,7 @@ class Utility(commands.Cog):
             try:
                 voice = gtts.gTTS(text, lang=lang)
                 voice.save(f"{here}/temp/voice.ogg")
-                await ctx.send(embed=discord.Embed(description=f"``{text}``", color=Colors.standard), file=discord.File(f"{here}/temp/voice.ogg"))
+                await ctx.send(embed=discord.Embed(description=f"# ``{text}``", color=Colors.standard), file=discord.File(f"{here}/temp/voice.ogg"))
                 
             except Exception as e:
                 await err_embed(ctx, e)

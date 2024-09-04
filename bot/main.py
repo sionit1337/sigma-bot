@@ -6,38 +6,24 @@ import os
 
 from random import choice
 
+from logger import Logger
 import logging
 
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
 here = os.path.realpath(os.path.dirname(__file__))
 
-file_handler = logging.FileHandler(filename=f"{here}/logs/bot.log", encoding="utf-8", mode="w")
-console_handler = logging.StreamHandler()
-
-formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")
-
-file_handler.setFormatter(formatter)
-console_handler.setFormatter(formatter)
-
-logger.addHandler(file_handler)
-logger.addHandler(console_handler)
+logger = Logger(here, "bot")
+logger.init_logger()
 
 
-# Universal colors
 class Colors:
     standard = 0xff9900
     error = 0xff0033
 
 
-async def err_embed(ctx, e):
-    await ctx.send(
-        embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error), 
-        ephemeral=True
-        )
-    logger.error(e)
+async def err_embed(ctx: commands.Context, e: Exception):
+    await ctx.send(embed=discord.Embed(title="Something went wrong", description=f"``{e}``", color=Colors.error),  ephemeral=True)
+    logger.log(e, logging.ERROR)
 
 
 cfg_path = f"{here}/not-scripts/config.json"
@@ -68,10 +54,10 @@ class Bot(commands.InteractionBot):
 
             try:
                 self.load_extension(f"cogs.{cog}")
-                self.logger.info(f"Successfully loaded cog \"{cog}\"")
+                self.logger.log(f"Successfully loaded cog \"{cog}\"", logging.INFO)
 
             except Exception as e:
-                self.logger.error(e)
+                self.logger.log(e, logging.ERROR)
 
 
 if __name__ == "__main__":
@@ -79,7 +65,7 @@ if __name__ == "__main__":
 
     @bot.event
     async def on_ready():
-        logger.info(f"Logged in as {bot.user.display_name}")
+        bot.logger.log(f"Logged in as {bot.user.display_name}", logging.INFO)
         bot.setup_cogs()
         
         motds = [

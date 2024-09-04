@@ -12,7 +12,7 @@ import logging
 
 here = os.path.realpath(os.path.dirname(__file__))
 
-logger = Logger(here, "bot")
+logger = Logger(f"{here}/logs", "bot")
 logger.init_logger()
 
 

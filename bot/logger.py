@@ -11,7 +11,7 @@ class Logger:
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.INFO)
         
-        file_handler = logging.FileHandler(filename=f"{self.path}/logs/{self.filename}.log", encoding="utf-8", mode="w")
+        file_handler = logging.FileHandler(filename=f"{self.path}/{self.filename}.log", encoding="utf-8", mode="w")
         console_handler = logging.StreamHandler()
 
         formatter = logging.Formatter("[%(asctime)s] (%(levelname)s) %(name)s: %(message)s")

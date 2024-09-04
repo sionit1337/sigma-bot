@@ -14,7 +14,13 @@ import logging
 
 here = os.path.realpath(os.path.dirname(__file__))
 
-logger = Logger(f"{here}/bot", "launcher")
+if not os.path.exists(f"{here}/bot/cogs/temp"):
+    os.mkdir(f"{here}/bot/cogs/temp")
+    
+if not os.path.exists(f"{here}/bot/logs"):
+    os.mkdir(f"{here}/bot/logs")
+
+logger = Logger(f"{here}/bot/logs", "launcher")
 logger.init_logger()
 
 cfg_path = f"{here}/bot/not-scripts/config.json"

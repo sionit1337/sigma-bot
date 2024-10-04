@@ -1,3 +1,8 @@
+# NOTE
+
+This repository is a public archive
+I won't update it further
+
 # Sigma Bot
 
 Just a code for my bot
